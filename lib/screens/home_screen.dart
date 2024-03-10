@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD:lib/home_screen.dart
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Builder(
@@ -37,11 +36,6 @@ class HomePage extends StatelessWidget {
             );
           },
         ),
-=======
-      appBar: AppBar(actions: [
-        IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))
-      ]
->>>>>>> 6b159ac0b508773e30e585e0b3afbb0362041d18:lib/screens/home_screen.dart
       ),
       body: Container(
         decoration: setBgGradient(),
