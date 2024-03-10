@@ -6,6 +6,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Builder(
+          builder: (context) {
+            return const Row(
+              children: [
+                Text(
+                  "Hi ",
+                  style: TextStyle(
+                    fontFamily: 'Epilogue',
+                    color: Color.fromARGB(255, 55, 55, 55),
+                  ),
+                ),
+                Text(
+                  "Sarina!",
+                  style: TextStyle(
+                    fontFamily: 'Epilogue',
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 55, 55, 55),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
       body: Container(
         decoration: setBgGradient(),
         child: const Center(
