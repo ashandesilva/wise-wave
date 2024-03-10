@@ -1,11 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  void signUserOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD:lib/home_screen.dart
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Builder(
@@ -31,6 +37,11 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ),
+=======
+      appBar: AppBar(actions: [
+        IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))
+      ]
+>>>>>>> 6b159ac0b508773e30e585e0b3afbb0362041d18:lib/screens/home_screen.dart
       ),
       body: Container(
         decoration: setBgGradient(),
