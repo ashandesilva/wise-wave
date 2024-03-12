@@ -5,7 +5,7 @@ class MyTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
-  
+
   const MyTextField({
     super.key,
     required this.controller,
@@ -30,7 +30,7 @@ class MyTextField extends StatelessWidget {
           ),
           filled: true,
           fillColor: const Color(0xffffffff),
-            hintText: hintText,
+          hintText: hintText,
           hintStyle: const TextStyle(
             fontFamily: 'Rubik',
             fontSize: 15,
