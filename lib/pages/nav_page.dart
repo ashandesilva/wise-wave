@@ -43,7 +43,7 @@ class _NavPageState extends State<NavPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: myAppBar(),
+      appBar: myAppBar("Naaji" "!"),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

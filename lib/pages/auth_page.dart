@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wisewave/components/login_or_singup_page.dart';
+import 'package:wisewave/pages/login_or_singup_page.dart';
 import 'package:wisewave/pages/nav_page.dart';
 
 //import 'package:wise_wave/screens/login_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wisewave/components/auth_page.dart';
+import 'package:wisewave/pages/auth_page.dart';
 //import 'package:wisewave/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -18,9 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String appTitle = "WiseWave";
-    return const MaterialApp(
+    return MaterialApp(
       title: appTitle,
-      home: AuthPage(),
+      theme: ThemeData(fontFamily: 'Epilogue'),
+      home: const AuthPage(),
     );
   }
 }

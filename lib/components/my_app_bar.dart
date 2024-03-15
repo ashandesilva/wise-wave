@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-AppBar myAppBar() {
+AppBar myAppBar(String name) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
     titleSpacing: 25,
     title: Builder(
       builder: (context) {
-        return const Column(
+        return Column(
           children: [
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Row(
               children: [
-                Text(
+                const Text(
                   "Hi ",
                   style: TextStyle(
                     fontFamily: 'Epilogue',
@@ -21,8 +21,8 @@ AppBar myAppBar() {
                   ),
                 ),
                 Text(
-                  "Naaji!",
-                  style: TextStyle(
+                  name,
+                  style: const TextStyle(
                     fontFamily: 'Epilogue',
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 55, 55, 55),
