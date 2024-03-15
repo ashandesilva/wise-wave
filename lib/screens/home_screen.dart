@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:iconify_flutter/icons/bxs.dart';
-import 'package:wisewave/pages/login_or_singup_page.dart';
-import 'package:wisewave/pages/nav_page.dart';
+//import 'package:wisewave/pages/login_or_singup_page.dart';
+//import 'package:wisewave/pages/nav_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

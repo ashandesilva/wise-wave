@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wisewave/animation/fade_animation.dart';
+import 'package:wisewave/components/auth_service.dart';
 import 'package:wisewave/components/square_tile.dart';
 
 class SignupPage extends StatefulWidget {
@@ -11,11 +14,22 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final myimages = [
+    Image.asset('assets/images/page1.jpeg'),
+    Image.asset('assets/images/page2.jpeg'),
+    Image.asset('assets/images/page3.jpeg'),
+    Image.asset('assets/images/page4.jpeg'),
+    Image.asset('assets/images/page5.jpeg'),
+  ];
+  int currentIndex = 0;
+  
+  //final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-            child: Container(
+            child: FadeAnimation(1.5, Container(
                  height: MediaQuery.of(context).size.height,
                  width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
@@ -32,116 +46,48 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(40.0),
-                      child: Image.asset('assets/images/final-logo-of-wise-wave.png',
+                      child: Image.asset('assets/images/wiseWaveLogo.jpeg',
                         fit: BoxFit.cover,
                         width: 155,
                         height: 151,
                   )
-                      // child: Image.asset(
-                      //   'assets/your_logo_image.png',
-                      //   width: 155,
-                      //   height: 151, // Adjust the height as needed
-                      //   // You can also use AssetImage if the image is in your project
-                      //   // asset('assets/your_logo_image.png'),
-                      // ),
-                    ),
-                    const SizedBox(height: 50),
-                    CarouselSlider(
-                      items: [
-                        //1st Image of Slider
-                        Container(
-                          margin: const EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: const DecorationImage(
-                              image: NetworkImage(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTIZccfNPnqalhrWev-Xo7uBhkor57_rKbkw&usqp=CAU'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        //2nd Image of Slider
-                        Container(
-                          margin: const EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: const DecorationImage(
-                              image: NetworkImage(
-                                  'https://wallpaperaccess.com/full/2637581.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: const DecorationImage(
-                              image: NetworkImage(
-                                  'https://wallpaperaccess.com/full/2637581.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                      //Slider Container properties
-                      options: CarouselOptions(
-                        height: 180.0,
+                ),
+                   const SizedBox(height: 40),
+                   CarouselSlider(items: myimages, options: CarouselOptions(
+                    height: 180.0,
                         enlargeCenterPage: true,
                         autoPlay: true,
-                        aspectRatio: 16 / 9,
+                        aspectRatio: 2.0,
                         autoPlayCurve: Curves.fastOutSlowIn,
                         enableInfiniteScroll: true,
                         autoPlayAnimationDuration:
-                            const Duration(milliseconds: 500),
+                        const Duration(milliseconds: 300),
                         viewportFraction: 0.8,
-                      ),
-                    ),
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        }),                   
+                   ),
+                    const SizedBox(height: 15),
+                   AnimatedSmoothIndicator(activeIndex: currentIndex,
+                   count: myimages.length,
+                   effect: const ExpandingDotsEffect(
+                      dotColor: Color.fromARGB(255, 196, 130, 207),
+                      activeDotColor: Colors.deepPurple,
+                      dotHeight: 20,
+                      dotWidth: 20,
+                      spacing: 10,
+                   ),),
+
                     const SizedBox(height: 50),
-                  //   Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: Container(
-                  //         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  //         child: const Divider(
-                  //           thickness: 2,
-                  //           color: Color(0xff000000),
-                  //           height: 36,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     // const Padding(
-                  //     //   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  //     //   child: Text(
-                  //     //     'or',
-                  //     //     style: TextStyle(
-                  //     //       fontFamily: 'Rubik',
-                  //     //       fontSize: 15,
-                  //     //       fontWeight: FontWeight.bold,
-                  //     //       height: 0.5,
-                  //     //       color: Color(0xff000000),
-                  //     //     ),
-                  //     //   ),
-                  //     // ),
-                  //     // Expanded(
-                  //     //   child: Container(
-                  //     //     margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  //     //     child: const Divider(
-                  //     //       thickness: 2,
-                  //     //       color: Color(0xff000000),
-                  //     //       height: 36,
-                  //     //     ),
-                  //     //   ),
-                  //     // ),
-                  //   ],
-                  // ),
-                  //const SizedBox(height: 20),
-                  
                    Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //google
-                      const SquareTile(imagePath: 'assets/images/google.jpeg',),
+                      SquareTile(
+                        onTap: () => AuthService().signInWithGoogle(), 
+                        imagePath: 'assets/images/google.jpeg',),
                       // //apple
                       // SquareTile(imagePath: 'assets/images/apple.jpeg'),
                        Container(
@@ -159,7 +105,6 @@ class _SignupPageState extends State<SignupPage> {
                     ],
                   ),
                   const SizedBox(height: 50),
-
                   //signup
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -193,6 +138,7 @@ class _SignupPageState extends State<SignupPage> {
                 )
               )
             )
-    );
+            )
+    );   
   }
 }
