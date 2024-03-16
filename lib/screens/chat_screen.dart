@@ -3,19 +3,21 @@ import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/components/theme/nav_bg_gradient.dart';
 
 class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AI Assistant', 
-        style: TextStyle(
-          fontWeight: FontWeight.bold, 
-          fontSize: 24.0),), 
+        title: const Text(
+          'AI Assistant',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+        ),
         flexibleSpace: Container(
           decoration: setNavBgGradient(),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -23,19 +25,17 @@ class ChatScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             const Text(
               'Hi, Sarina How can I help you?',
               style: TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Expanded(
               child: ListView(
-                children: const [
-                  // TODO: Implement messages list
-                ],
+                children: const [],
               ),
             ),
             Container(
@@ -59,10 +59,8 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: () {
-                      // TODO: Implement send message functionality
-                    },
+                    icon: const Icon(Icons.send),
+                    onPressed: () {},
                   ),
                 ],
               ),

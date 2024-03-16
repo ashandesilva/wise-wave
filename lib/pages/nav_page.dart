@@ -12,14 +12,19 @@ import 'package:wisewave/screens/user_profile_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 
 class NavPage extends StatefulWidget {
-  const NavPage({super.key});
+  const NavPage({super.key, required this.index});
+
+  final int index;
 
   @override
-  State<NavPage> createState() => _NavPageState();
+  // ignore: no_logic_in_create_state
+  State<NavPage> createState() => _NavPageState(index);
 }
 
 class _NavPageState extends State<NavPage> {
-  int currentPageIndex = 0;
+  _NavPageState(this.currentPageIndex);
+
+  int currentPageIndex;
   int fabButtonToggleIndex = 0;
   static const List<Iconify> fabToggleButtonIcons = [
     Iconify(
@@ -108,88 +113,108 @@ class _NavPageState extends State<NavPage> {
           indicatorColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           selectedIndex: currentPageIndex,
-          destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Badge(
-                alignment: Alignment(0, -7.8),
-                smallSize: 19,
-                backgroundColor: Color(0xFF53A688),
-                child: Iconify(
-                  Bxs.home_alt_2,
-                  color: Color(0xFF53A688),
-                  size: 30,
-                ),
-              ),
-              icon: Iconify(
-                Bx.home_alt_2,
-                size: 30,
-                color: Color(0xFF472732),
-              ),
-              label: 'Home',
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 70),
-              child: NavigationDestination(
-                selectedIcon: Badge(
-                  alignment: Alignment(0, -7.8),
-                  smallSize: 19,
-                  backgroundColor: Color(0xFF53A688),
-                  child: Iconify(
-                    Bxs.bookmark,
-                    size: 30,
-                    color: Color(0xFF53A688),
-                  ),
-                ),
-                icon: Iconify(
-                  Bx.bookmark,
-                  size: 30,
-                  color: Color.fromARGB(255, 71, 39, 50),
-                ),
-                label: 'Notifications',
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 70),
-              child: NavigationDestination(
-                selectedIcon: Badge(
-                  alignment: Alignment(0, -7.8),
-                  smallSize: 19,
-                  backgroundColor: Color(0xFF53A688),
-                  child: Iconify(
-                    Bxs.message,
-                    size: 30,
-                    color: Color(0xFF53A688),
-                  ),
-                ),
-                icon: Iconify(
-                  Bx.message,
-                  size: 30,
-                  color: Color(0xFF472732),
-                ),
-                label: 'Messages',
-              ),
-            ),
-            NavigationDestination(
-              selectedIcon: Badge(
-                alignment: Alignment(0, -7.8),
-                smallSize: 19,
-                backgroundColor: Color(0xFF53A688),
-                child: Iconify(
-                  Bxs.user,
-                  size: 30,
-                  color: Color(0xFF53A688),
-                ),
-              ),
-              icon: Iconify(
-                Bx.user,
-                size: 30,
-                color: Color(0xFF472732),
-              ),
-              label: 'user',
-            ),
+          destinations: <Widget>[
+            _home_navigator(),
+            _check_in_navigator(),
+            _message_navigator(),
+            _user_profile_navigator(),
           ],
         ),
       ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  NavigationDestination _user_profile_navigator() {
+    return const NavigationDestination(
+      selectedIcon: Badge(
+        alignment: Alignment(0, -7.8),
+        smallSize: 19,
+        backgroundColor: Color(0xFF53A688),
+        child: Iconify(
+          Bxs.user,
+          size: 30,
+          color: Color(0xFF53A688),
+        ),
+      ),
+      icon: Iconify(
+        Bx.user,
+        size: 30,
+        color: Color(0xFF472732),
+      ),
+      label: 'user',
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Padding _message_navigator() {
+    return const Padding(
+      padding: EdgeInsets.only(left: 70),
+      child: NavigationDestination(
+        selectedIcon: Badge(
+          alignment: Alignment(0, -7.8),
+          smallSize: 19,
+          backgroundColor: Color(0xFF53A688),
+          child: Iconify(
+            Bxs.message,
+            size: 30,
+            color: Color(0xFF53A688),
+          ),
+        ),
+        icon: Iconify(
+          Bx.message,
+          size: 30,
+          color: Color(0xFF472732),
+        ),
+        label: 'Messages',
+      ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Padding _check_in_navigator() {
+    return const Padding(
+      padding: EdgeInsets.only(right: 70),
+      child: NavigationDestination(
+        selectedIcon: Badge(
+          alignment: Alignment(0, -7.8),
+          smallSize: 19,
+          backgroundColor: Color(0xFF53A688),
+          child: Iconify(
+            Bxs.bookmark,
+            size: 30,
+            color: Color(0xFF53A688),
+          ),
+        ),
+        icon: Iconify(
+          Bx.bookmark,
+          size: 30,
+          color: Color.fromARGB(255, 71, 39, 50),
+        ),
+        label: 'Notifications',
+      ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  NavigationDestination _home_navigator() {
+    return const NavigationDestination(
+      selectedIcon: Badge(
+        alignment: Alignment(0, -7.8),
+        smallSize: 19,
+        backgroundColor: Color(0xFF53A688),
+        child: Iconify(
+          Bxs.home_alt_2,
+          color: Color(0xFF53A688),
+          size: 30,
+        ),
+      ),
+      icon: Iconify(
+        Bx.home_alt_2,
+        size: 30,
+        color: Color(0xFF472732),
+      ),
+      label: 'Home',
     );
   }
 }
