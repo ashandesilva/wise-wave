@@ -20,7 +20,7 @@ class UserProfileScreen extends StatelessWidget {
           decoration: setNavBgGradient(),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Navigate back to the previous screen
           },
@@ -28,7 +28,7 @@ class UserProfileScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(50.0),
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

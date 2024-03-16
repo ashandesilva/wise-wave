@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 AppBar myAppBar(String name) {
   return AppBar(
     backgroundColor: Colors.transparent,
+    automaticallyImplyLeading: false,
     elevation: 0,
     titleSpacing: 25,
     title: Builder(
