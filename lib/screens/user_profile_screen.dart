@@ -20,7 +20,7 @@ class UserProfileScreen extends StatelessWidget {
           decoration: setNavBgGradient(),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Navigate back to the previous screen
           },
@@ -28,7 +28,7 @@ class UserProfileScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(50.0),
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +41,7 @@ class UserProfileScreen extends StatelessWidget {
                   children: <Widget>[
                 CircleAvatar(
                   radius: 80.0,
-                  backgroundImage: AssetImage('assets/profile_picture.png'), // replace image
+                  backgroundImage: AssetImage('assets/images/profile-pic-sample.png'), // replace image
                   
                 ),
                 
