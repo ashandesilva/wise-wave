@@ -58,7 +58,7 @@ class _NavPageState extends State<NavPage> {
       // checkIns screen content.
       const CheckInScreen(),
       // Chat screen content.
-      const ChatScreen(),
+      ChatScreen(),
       // User profile screen content.
       const UserProfileScreen(),
     ];

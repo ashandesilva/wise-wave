@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: appTitle,
       theme: ThemeData(fontFamily: 'Epilogue'),
       home: const AuthPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
