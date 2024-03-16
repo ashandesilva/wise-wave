@@ -9,10 +9,10 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AI Assistant', 
-        style: TextStyle(
-          fontWeight: FontWeight.bold, 
-          fontSize: 24.0),), 
+        title: const Text(
+          'AI Assistant',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+        ),
         flexibleSpace: Container(
           decoration: setNavBgGradient(),
         ),
@@ -35,9 +35,7 @@ class ChatScreen extends StatelessWidget {
             const SizedBox(height: 20.0),
             Expanded(
               child: ListView(
-                children: const [
-                  // TODO: Implement messages list
-                ],
+                children: const [],
               ),
             ),
             Container(
