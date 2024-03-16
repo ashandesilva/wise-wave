@@ -41,7 +41,7 @@ class UserProfileScreen extends StatelessWidget {
                   children: <Widget>[
                 CircleAvatar(
                   radius: 80.0,
-                  backgroundImage: AssetImage('assets/profile_picture.png'), // replace image
+                  backgroundImage: AssetImage('assets/images/profile-pic-sample.png'), // replace image
                   
                 ),
                 

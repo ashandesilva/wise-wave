@@ -60,7 +60,9 @@ class ChatScreen extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.send),
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO: Implement send message functionality
+                    },
                   ),
                 ],
               ),
