@@ -1,5 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/icon_park_solid.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
+
+enum ActivityFillter {
+  work,
+  family,
+  friends,
+  hobbies,
+  gaming,
+  weather,
+  school,
+  relationship,
+  traveling,
+  sleep,
+  shopping,
+  food,
+  exercise,
+  health,
+  music,
+  relaxing,
+}
+
+enum FeelingFillter {
+  happy,
+  blessed,
+  good,
+  lucky,
+  confused,
+  bored,
+  awkward,
+  stressed,
+  angry,
+  anxious,
+  down,
+}
 
 class AddCheckInPage extends StatefulWidget {
   const AddCheckInPage({super.key});
@@ -9,6 +44,8 @@ class AddCheckInPage extends StatefulWidget {
 }
 
 class _AddCheckInPageState extends State<AddCheckInPage> {
+  Set<ActivityFillter> activityFilters = <ActivityFillter>{};
+  Set<FeelingFillter> feelingFillters = <FeelingFillter>{};
   final List<String> _emotionsList = [
     "REALLY TERRIBLE",
     "SOMEWHAT BAD",
@@ -18,7 +55,13 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
   ];
   late int _currentSliderPosition = 2;
   bool _isBottomButtonPressed = false;
-  String _bottmButtonText = "Next";
+  String _bottmButtonText = "Continue";
+  Widget _leadingIcon = const Text('');
+  bool _isSliderChanged = false;
+  final TextEditingController _titleTextFieldController =
+      TextEditingController();
+  final TextEditingController _addNotesTextFieldController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +100,19 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
             ),
           ),
           FilledButton(
-            onPressed: () {
-              setState(() {
-                if (!_isBottomButtonPressed) {
-                  _bottmButtonText = "Submit";
-                  _isBottomButtonPressed = true;
-                } else {
-                  Navigator.pop(context);
-                }
-              });
-            },
+            onPressed: _isSliderChanged
+                ? () {
+                    setState(() {
+                      if (!_isBottomButtonPressed) {
+                        _bottmButtonText = "Complete Check-In";
+                        _isBottomButtonPressed = true;
+                        _leadingIcon = _getLeadingBackIcon();
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    });
+                  }
+                : null,
             style: const ButtonStyle(
               fixedSize: MaterialStatePropertyAll(Size(250, 60)),
               backgroundColor: MaterialStatePropertyAll(Colors.transparent),
@@ -75,7 +121,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
               _bottmButtonText,
               style: const TextStyle(
                 fontWeight: FontWeight.w800,
-                fontSize: 20,
+                fontSize: 18,
                 shadows: <Shadow>[
                   Shadow(
                     offset: Offset(0, 1.5),
@@ -95,24 +141,216 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
     return Container(
       decoration: setMainBgGradient(),
       child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 120),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 300,
-                child: Text(
-                  "Why are you feeling\n${_emotionsList[_currentSliderPosition].toLowerCase()}",
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'Epilogue',
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF474747),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(0, 95, 0, 0),
+          padding: const EdgeInsets.only(bottom: 100),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // activity heading
+                SizedBox(
+                  width: 340,
+                  child: Text(
+                    "What's making you ${_emotionsList[_currentSliderPosition].toLowerCase()}",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Epilogue',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF474747),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 5),
+
+                // activity chips
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Wrap(
+                    spacing: 5.0,
+                    runSpacing: -6.0,
+                    children:
+                        ActivityFillter.values.map((ActivityFillter activity) {
+                      return FilterChip(
+                        side: BorderSide.none,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        selectedColor: const Color.fromARGB(255, 229, 168, 182),
+                        surfaceTintColor:
+                            const Color.fromARGB(255, 229, 168, 182),
+                        elevation: 5,
+                        backgroundColor: const Color(0xFFE3F4F7),
+                        labelStyle: const TextStyle(fontSize: 12),
+                        label: Text(activity.name),
+                        selected: activityFilters.contains(activity),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              activityFilters.add(activity);
+                            } else {
+                              activityFilters.remove(activity);
+                            }
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(height: 30),
+
+                // feeling heading
+                const SizedBox(
+                  width: 340,
+                  child: Text(
+                    "how are you feeling about this?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Epilogue',
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF474747),
+                    ),
+                  ),
+                ),
+
+                // feeling chips
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Wrap(
+                    spacing: 5.0,
+                    runSpacing: -6.0,
+                    children:
+                        FeelingFillter.values.map((FeelingFillter feeling) {
+                      return FilterChip(
+                        side: BorderSide.none,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        selectedColor: const Color.fromARGB(255, 229, 168, 182),
+                        surfaceTintColor:
+                            const Color.fromARGB(255, 229, 168, 182),
+                        elevation: 5,
+                        backgroundColor: const Color(0xFFE3F4F7),
+                        labelStyle: const TextStyle(fontSize: 12),
+                        label: Text(feeling.name),
+                        selected: feelingFillters.contains(feeling),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              feelingFillters.add(feeling);
+                            } else {
+                              feelingFillters.remove(feeling);
+                            }
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(height: 30),
+
+                // Title textfield
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: TextField(
+                    controller: _titleTextFieldController,
+                    onTap: () async => setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TitleTextfieldScreen(
+                            initialValue: _titleTextFieldController.text,
+                          ),
+                        ),
+                      ).then((enteredValue) {
+                        if (enteredValue != null) {
+                          setState(() {
+                            _titleTextFieldController.text = enteredValue;
+                          });
+                        }
+                      });
+                    }),
+                    autofocus: false,
+                    readOnly: true,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFE3F4F7),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Title...',
+                      hintStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(122, 71, 71, 71),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+
+                // add some notes textfeild...
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: TextField(
+                    controller: _addNotesTextFieldController,
+                    onTap: () async => setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddNotesTextfieldScreen(
+                            initialValue: _addNotesTextFieldController.text,
+                          ),
+                        ),
+                      ).then((enteredValue) {
+                        if (enteredValue != null) {
+                          setState(() {
+                            _addNotesTextFieldController.text = enteredValue;
+                          });
+                        }
+                      });
+                    }),
+                    maxLines: 3,
+                    autofocus: false,
+                    readOnly: true,
+                    style: const TextStyle(fontSize: 15),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFE3F4F7),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Add some notes...',
+                      hintStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(122, 71, 71, 71),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -129,11 +367,12 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
-                width: 300,
+                width: 340,
                 child: Text(
-                  "How are you feeling today?",
+                  "How are you feeling now?",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 33,
+                    fontSize: 25,
                     fontFamily: 'Epilogue',
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF474747),
@@ -161,12 +400,12 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
               ),
               SizedBox(
                 width: 350,
-                height: 50,
+                height: 100,
                 child: SliderTheme(
                   data: const SliderThemeData(
-                      trackHeight: 15,
-                      thumbShape:
-                          RoundSliderThumbShape(enabledThumbRadius: 17.0)),
+                    trackHeight: 15,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 17.0),
+                  ),
                   child: Slider(
                     value: _currentSliderPosition.toDouble(),
                     activeColor: const Color(0xFFE5ABB5),
@@ -177,6 +416,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                     onChanged: (double value) async {
                       setState(() {
                         _currentSliderPosition = value.round().toInt();
+                        _isSliderChanged = true;
                       });
                     },
                   ),
@@ -191,10 +431,11 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
 
   AppBar _myAppBar(BuildContext context) {
     return AppBar(
-      titleSpacing: 25,
+      leadingWidth: 90,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       elevation: 0,
+      leading: _leadingIcon,
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(right: 25),
@@ -209,6 +450,181 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Padding _getLeadingBackIcon() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 25),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            if (_isBottomButtonPressed) {
+              _bottmButtonText = "Continue";
+              _isBottomButtonPressed = false;
+              _leadingIcon = const Text('');
+            }
+          });
+        },
+        child: const Image(
+          fit: BoxFit.fitHeight,
+          image: AssetImage("assets/images/back-button.png"),
+        ),
+      ),
+    );
+  }
+}
+
+// new activity
+// ignore: must_be_immutable
+class TitleTextfieldScreen extends StatelessWidget {
+  String initialValue;
+  TitleTextfieldScreen({super.key, required this.initialValue});
+  final TextEditingController _titleTextfieldController =
+      TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    _titleTextfieldController.text = initialValue;
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Check-In Title",
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF474747),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
+      body: PopScope(
+        canPop: false,
+        child: Container(
+          decoration: setMainBgGradient(),
+          alignment: Alignment.center,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            child: TextField(
+              controller: _titleTextfieldController,
+              maxLength: 25,
+              onEditingComplete: () async =>
+                  Navigator.pop(context, _titleTextfieldController.text),
+              focusNode: FocusNode(),
+              autofocus: true,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFE3F4F7),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Title...',
+                hintStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(122, 71, 71, 71),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async =>
+            Navigator.pop(context, _titleTextfieldController.text),
+        backgroundColor: const Color(0xFFE5ABB5),
+        child: const Iconify(
+          IconParkSolid.correct,
+          color: Color(0xFFFFFFFF),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class AddNotesTextfieldScreen extends StatelessWidget {
+  String initialValue;
+  AddNotesTextfieldScreen({super.key, required this.initialValue});
+  final TextEditingController _addNotesTextfieldController =
+      TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    _addNotesTextfieldController.text = initialValue;
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "Notes",
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF474747),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
+      body: PopScope(
+        canPop: false,
+        child: Container(
+          decoration: setMainBgGradient(),
+          alignment: Alignment.center,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            child: TextField(
+              controller: _addNotesTextfieldController,
+              onEditingComplete: () async =>
+                  Navigator.pop(context, _addNotesTextfieldController.text),
+              maxLines: 10,
+              focusNode: FocusNode(),
+              autofocus: true,
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFE3F4F7),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: 'Add some notes...',
+                hintStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(122, 71, 71, 71),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async =>
+            Navigator.pop(context, _addNotesTextfieldController.text),
+        backgroundColor: const Color(0xFFE5ABB5),
+        child: const Iconify(
+          IconParkSolid.correct,
+          color: Color(0xFFFFFFFF),
+        ),
+      ),
     );
   }
 }
