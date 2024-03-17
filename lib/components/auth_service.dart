@@ -4,8 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
 
   signInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    await googleSignIn.signOut();
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 

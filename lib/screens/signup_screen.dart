@@ -46,7 +46,7 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(40.0),
-                      child: Image.asset('assets/images/wiseWaveLogo.jpeg',
+                      child: Image.asset('assets/images/final-logo-of-wise-wave.png',
                         fit: BoxFit.cover,
                         width: 155,
                         height: 151,
