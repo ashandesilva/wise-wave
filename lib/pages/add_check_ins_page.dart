@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/icon_park_solid.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
@@ -142,7 +143,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
       decoration: setMainBgGradient(),
       child: Center(
         child: Container(
-          margin: const EdgeInsets.fromLTRB(0, 95, 0, 0),
+          margin: const EdgeInsets.fromLTRB(0, 107, 0, 0),
           padding: const EdgeInsets.only(bottom: 100),
           child: SingleChildScrollView(
             child: Column(
@@ -431,46 +432,55 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
 
   AppBar _myAppBar(BuildContext context) {
     return AppBar(
-      leadingWidth: 90,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      leadingWidth: 65,
       automaticallyImplyLeading: false,
+      scrolledUnderElevation: 10,
+      surfaceTintColor: const Color.fromARGB(255, 255, 255, 255),
       backgroundColor: Colors.transparent,
-      elevation: 0,
       leading: _leadingIcon,
       actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 25),
-          child: GestureDetector(
-            onTap: () async {
-              Navigator.pop(context);
-            },
-            child: const Image(
-              fit: BoxFit.fill,
-              image: AssetImage("assets/images/close-button.png"),
-            ),
+        GestureDetector(
+          onTap: () async {
+            Navigator.pop(context);
+          },
+          child: const Image(
+            width: 45,
+            image: AssetImage("assets/images/close-button.png"),
           ),
         ),
+        const SizedBox(width: 20),
       ],
+      bottom: const PreferredSize(
+        preferredSize: Size(0, 10),
+        child: SizedBox(height: 0),
+      ),
     );
   }
 
-  Padding _getLeadingBackIcon() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            if (_isBottomButtonPressed) {
-              _bottmButtonText = "Continue";
-              _isBottomButtonPressed = false;
-              _leadingIcon = const Text('');
-            }
-          });
-        },
-        child: const Image(
-          fit: BoxFit.fitHeight,
-          image: AssetImage("assets/images/back-button.png"),
+  Row _getLeadingBackIcon() {
+    return Row(
+      children: [
+        const SizedBox(width: 20),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              if (_isBottomButtonPressed) {
+                _bottmButtonText = "Continue";
+                _isBottomButtonPressed = false;
+                _leadingIcon = const Text('');
+              }
+            });
+          },
+          child: const Image(
+            width: 45,
+            image: AssetImage("assets/images/back-button.png"),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

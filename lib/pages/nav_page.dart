@@ -25,19 +25,9 @@ class _NavPageState extends State<NavPage> {
   _NavPageState(this.currentPageIndex);
 
   int currentPageIndex;
-  int fabButtonToggleIndex = 0;
-  static const List<Iconify> fabToggleButtonIcons = [
-    Iconify(
-      Fa.plus,
-      size: 24,
-      color: Color(0xffF2FFE9),
-    ),
-    Iconify(
-      Fa.close,
-      size: 24,
-      color: Color(0xffF2FFE9),
-    ),
-  ];
+  bool _isFabButtonToggle = false;
+
+  final String _userName = "Naaji";
 
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();
@@ -48,7 +38,12 @@ class _NavPageState extends State<NavPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: myAppBar("Naaji" "!"),
+      appBar: currentPageIndex == 3 || currentPageIndex == 2
+          ? _getAltAppBar()
+          : myAppBar(
+              "$_userName!",
+              UserProfileScreen(userName: _userName).userProfilePic,
+            ),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -63,9 +58,9 @@ class _NavPageState extends State<NavPage> {
       // checkIns screen content.
       const CheckInScreen(),
       // Chat screen content.
-      ChatScreen(),
+      const ChatScreen(),
       // User profile screen content.
-      const UserProfileScreen(),
+      UserProfileScreen(userName: _userName),
     ];
   }
 
@@ -79,16 +74,22 @@ class _NavPageState extends State<NavPage> {
           child: FloatingActionButton(
             onPressed: () {
               setState(() {
-                if (fabButtonToggleIndex == 0) {
-                  fabButtonToggleIndex = 1;
-                } else {
-                  fabButtonToggleIndex = 0;
-                }
+                _isFabButtonToggle = !_isFabButtonToggle;
               });
             },
             elevation: 0,
             backgroundColor: const Color(0xFF59B292),
-            child: fabToggleButtonIcons[fabButtonToggleIndex],
+            child: _isFabButtonToggle
+                ? const Iconify(
+                    Fa.close,
+                    size: 24,
+                    color: Color(0xffF2FFE9),
+                  )
+                : const Iconify(
+                    Fa.plus,
+                    size: 24,
+                    color: Color(0xffF2FFE9),
+                  ),
           ),
         ),
       ),
@@ -215,6 +216,37 @@ class _NavPageState extends State<NavPage> {
         color: Color(0xFF472732),
       ),
       label: 'Home',
+    );
+  }
+
+  AppBar _getAltAppBar() {
+    return AppBar(
+      title: Text(
+        currentPageIndex == 3
+            ? "Profile"
+            : currentPageIndex == 2
+                ? "AI Assistant"
+                : "",
+        style: const TextStyle(
+          color: Color(0xFF373737),
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ),
+      ),
+      centerTitle: true,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 242, 195, 178),
+              Color.fromARGB(255, 229, 168, 182)
+            ],
+            stops: [0, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 
 class DailyChallange extends StatefulWidget {
@@ -160,11 +161,14 @@ class _DailyChallangeState extends State<DailyChallange> {
 
   AppBar _myAppBar(BuildContext context) {
     return AppBar(
-      titleSpacing: 25,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      titleSpacing: 20,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
-      elevation: 0,
-      toolbarHeight: 100,
+      toolbarHeight: 80,
       title: const Text(
         "Daily\nChallenge",
         style: TextStyle(
@@ -175,19 +179,21 @@ class _DailyChallangeState extends State<DailyChallange> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 25),
-          child: GestureDetector(
-            onTap: () async {
-              Navigator.pop(context);
-            },
-            child: const Image(
-              fit: BoxFit.fill,
-              image: AssetImage("assets/images/close-button.png"),
-            ),
+        GestureDetector(
+          onTap: () async {
+            Navigator.pop(context);
+          },
+          child: const Image(
+            width: 45,
+            image: AssetImage("assets/images/close-button.png"),
           ),
         ),
+        const SizedBox(width: 20)
       ],
+      bottom: const PreferredSize(
+        preferredSize: Size(0, 10),
+        child: SizedBox(height: 0),
+      ),
     );
   }
 }

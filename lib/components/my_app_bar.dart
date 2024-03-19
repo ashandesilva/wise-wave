@@ -1,53 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-AppBar myAppBar(String name) {
+AppBar myAppBar(String name, String userProfilePic) {
+  String defaultProfilePic = "assets/images/default-profile-pic.png";
+
   return AppBar(
+    systemOverlayStyle: const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
     backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
+    titleSpacing: 20,
     elevation: 0,
-    titleSpacing: 25,
-    title: Builder(
-      builder: (context) {
-        return Column(
-          children: [
-            const SizedBox(height: 9),
-            Row(
-              children: [
-                const Text(
-                  "Hi ",
-                  style: TextStyle(
-                    fontFamily: 'Epilogue',
-                    color: Color.fromARGB(255, 55, 55, 55),
-                    fontSize: 30,
-                  ),
-                ),
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontFamily: 'Epilogue',
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 55, 55, 55),
-                    fontSize: 30,
-                  ),
-                ),
-              ],
+    title: RichText(
+      text: TextSpan(
+        text: "Hi ",
+        style: const TextStyle(
+          color: Color(0xFF373737),
+          fontSize: 30,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: name,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     ),
-    actions: const <Widget>[
+    actions: <Widget>[
       CircleAvatar(
-        radius: 50,
-        backgroundColor: Color.fromARGB(255, 71, 71, 71),
+        radius: 25,
+        backgroundColor: const Color(0xFF474747),
         child: CircleAvatar(
-          radius: 23,
-          backgroundImage: AssetImage("assets/images/profile-pic-sample.png"),
+          radius: 20,
+          backgroundImage: userProfilePic != ""
+              ? AssetImage(userProfilePic)
+              : AssetImage(defaultProfilePic),
         ),
       ),
-      SizedBox(
-        width: 10,
-      ),
+      const SizedBox(width: 20),
     ],
+    bottom: const PreferredSize(
+      preferredSize: Size(0, 10),
+      child: SizedBox(height: 0),
+    ),
   );
 }

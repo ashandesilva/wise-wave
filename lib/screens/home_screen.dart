@@ -185,8 +185,9 @@ class HomeScreen extends StatelessWidget {
                       child: RichText(
                         text: const TextSpan(
                           text: "Ends in ",
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 55, 55, 55)),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 55, 55, 55),
+                          ),
                           children: <TextSpan>[
                             TextSpan(
                               text: "09:38:44",

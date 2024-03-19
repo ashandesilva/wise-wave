@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
-import 'package:wisewave/components/theme/nav_bg_gradient.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -8,24 +7,9 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'AI Assistant',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
-        ),
-        flexibleSpace: Container(
-          decoration: setNavBgGradient(),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(top: 120.0),
         child: Column(
           children: [
             const Text(
