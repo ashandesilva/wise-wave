@@ -24,9 +24,8 @@ class MyButton extends StatelessWidget {
           child: Text(
             "Log in",
             style: TextStyle(
-              fontFamily: 'Rubik',
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
               height: 0.5,
               color: Color(0xff000000),
             ),

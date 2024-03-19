@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wisewave/animation/fade_animation.dart';
 import 'package:wisewave/components/auth_service.dart';
-import 'package:wisewave/components/square_tile.dart';
 
 class SignupPage extends StatefulWidget {
   final Function()? onTap;
@@ -15,130 +14,148 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final myimages = [
-    Image.asset('assets/images/page1.jpeg'),
-    Image.asset('assets/images/page2.jpeg'),
-    Image.asset('assets/images/page3.jpeg'),
-    Image.asset('assets/images/page4.jpeg'),
-    Image.asset('assets/images/page5.jpeg'),
+    Image.asset(
+      'assets/images/alt-page1.png',
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      'assets/images/alt-page2.png',
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      'assets/images/alt-page3.png',
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      'assets/images/alt-page4.png',
+      fit: BoxFit.fitHeight,
+    ),
+    Image.asset(
+      'assets/images/alt-page5.png',
+      fit: BoxFit.fitHeight,
+    ),
   ];
   int currentIndex = 0;
-  
+
   //final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-            child: FadeAnimation(1.5, Container(
-                 height: MediaQuery.of(context).size.height,
-                 width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xfff2c2b1),
-                      Color(0xffe5a8b6)
-                    ], // Change these colors as needed
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Image.asset('assets/images/final-logo-of-wise-wave.png',
-                        fit: BoxFit.cover,
-                        width: 155,
-                        height: 151,
-                  )
-                ),
-                   const SizedBox(height: 40),
-                   CarouselSlider(items: myimages, options: CarouselOptions(
-                    height: 180.0,
-                        enlargeCenterPage: true,
-                        autoPlay: true,
-                        aspectRatio: 2.0,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enableInfiniteScroll: true,
-                        autoPlayAnimationDuration:
-                        const Duration(milliseconds: 300),
-                        viewportFraction: 0.8,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                        }),                   
-                   ),
-                    const SizedBox(height: 15),
-                   AnimatedSmoothIndicator(activeIndex: currentIndex,
-                   count: myimages.length,
-                   effect: const ExpandingDotsEffect(
-                      dotColor: Color.fromARGB(255, 196, 130, 207),
-                      activeDotColor: Colors.deepPurple,
-                      dotHeight: 20,
-                      dotWidth: 20,
-                      spacing: 10,
-                   ),),
+        body: SingleChildScrollView(
+            child: FadeAnimation(
+                1.5,
+                Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xfff2c2b1),
+                          Color(0xffe5a8b6)
+                        ], // Change these colors as needed
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        Container(
+                          padding: const EdgeInsets.all(40.0),
+                          child: Image.asset(
+                            'assets/images/final-logo-of-wise-wave.png',
+                            fit: BoxFit.cover,
+                            width: 200,
+                            height: 115,
+                          ),
+                        ),
+                        CarouselSlider(
+                          items: myimages,
+                          options: CarouselOptions(
+                              height: 300.0,
+                              enlargeCenterPage: true,
+                              autoPlay: true,
+                              aspectRatio: 2.0,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enableInfiniteScroll: true,
+                              autoPlayAnimationDuration:
+                                  const Duration(milliseconds: 300),
+                              viewportFraction: 0.8,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              }),
+                        ),
+                        const SizedBox(height: 20),
+                        AnimatedSmoothIndicator(
+                          activeIndex: currentIndex,
+                          count: myimages.length,
+                          effect: const ExpandingDotsEffect(
+                            dotColor: Color(0x52418883),
+                            activeDotColor: Color(0xFF4CA59F),
+                            dotHeight: 10,
+                            dotWidth: 10,
+                            spacing: 10,
+                          ),
+                        ),
 
-                    const SizedBox(height: 50),
-                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //google
-                      SquareTile(
-                        onTap: () => AuthService().signInWithGoogle(), 
-                        imagePath: 'assets/images/google.jpeg',),
-                      // //apple
-                      // SquareTile(imagePath: 'assets/images/apple.jpeg'),
-                       Container(
-                        //margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: const Text(
-                          'Login With Google',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
+                        const SizedBox(height: 50),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 60.0),
+                          child: Material(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(100),
+                              ),
+                            ),
+                            child: ListTile(
+                              title: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Text(
+                                  "Signup with Google",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              leading: Image.asset('assets/images/Google.png'),
+                              onTap: () => AuthService().signInWithGoogle(),
+                              tileColor: const Color(0xFFFFFFFF),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(100),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  //signup
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Already have an account?',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 17,
-                          height: 0.5,
-                          color: Color(0xff000000),
+                        const SizedBox(height: 100),
+                        //signup
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Already have an account?',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xff000000),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: widget.onTap,
+                              child: const Text(
+                                'Log in',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF4CA59F),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: const Text(
-                          'Log in',
-                          style: TextStyle(
-                            fontFamily: 'Rubik',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            height: 0.5,
-                            color: Color.fromARGB(255, 107, 167, 245),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ],
-                )
-              )
-            )
-            )
-    );   
+                      ],
+                    )))));
   }
 }

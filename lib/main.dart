@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     const String appTitle = "WiseWave";
     return MaterialApp(
       title: appTitle,
-      theme: ThemeData(fontFamily: 'Epilogue'),
+      theme: ThemeData(fontFamily: 'Rubik'), // Epilogue or Rubik
       home: const AuthPage(),
       debugShowCheckedModeBanner: false,
     );

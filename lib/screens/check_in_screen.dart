@@ -14,7 +14,6 @@ class CheckInScreen extends StatelessWidget {
             "Check-In screen",
             style: TextStyle(
               fontSize: 33,
-              fontFamily: 'Epilogue',
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 55, 55, 55),
             ),

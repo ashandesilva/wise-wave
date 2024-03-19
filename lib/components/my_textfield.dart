@@ -15,29 +15,31 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      decoration: BoxDecoration(
-        color: const Color(0xffffffff),
-        borderRadius: BorderRadius.circular(30),
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
       ),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xffffffff)),
-          ),
-          filled: true,
-          fillColor: const Color(0xffffffff),
-          hintText: hintText,
-          hintStyle: const TextStyle(
-            fontFamily: 'Rubik',
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            height: 0.5,
-            color: Color(0xffbababa),
-          ),
+      decoration: InputDecoration(
+        prefix: const SizedBox(width: 20),
+        suffix: const SizedBox(width: 20),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFFFFF)),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xFFFFFFFF)),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        filled: true,
+        fillColor: const Color(0xFFFFFFFF),
+        hintText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(70, 71, 71, 71),
         ),
       ),
     );

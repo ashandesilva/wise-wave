@@ -157,7 +157,6 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 18,
-                      fontFamily: 'Epilogue',
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF474747),
                     ),
@@ -211,7 +210,6 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
-                      fontFamily: 'Epilogue',
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF474747),
                     ),
@@ -374,7 +372,6 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 25,
-                    fontFamily: 'Epilogue',
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF474747),
                   ),

@@ -97,7 +97,6 @@ class _DailyChallangeState extends State<DailyChallange> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,
-                  fontFamily: 'Epilogue',
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF474747),
                 ),
@@ -146,7 +145,6 @@ class _DailyChallangeState extends State<DailyChallange> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 17,
-                    fontFamily: 'Epilogue',
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF474747),
                   ),
@@ -172,7 +170,6 @@ class _DailyChallangeState extends State<DailyChallange> {
       title: const Text(
         "Daily\nChallenge",
         style: TextStyle(
-          fontFamily: 'Epilogue',
           fontWeight: FontWeight.w800,
           color: Color(0xFF474747),
           fontSize: 30,

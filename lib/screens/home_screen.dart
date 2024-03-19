@@ -58,7 +58,6 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     "Daily Check-Ins",
                     style: TextStyle(
-                      fontFamily: 'Epilogue',
                       fontWeight: FontWeight.w800,
                       color: Color.fromARGB(255, 55, 55, 55),
                       fontSize: 24,
@@ -174,7 +173,6 @@ class HomeScreen extends StatelessWidget {
                     const Text(
                       "Daily Challenge",
                       style: TextStyle(
-                        fontFamily: 'Epilogue',
                         fontWeight: FontWeight.w800,
                         color: Color.fromARGB(255, 55, 55, 55),
                         fontSize: 24,
