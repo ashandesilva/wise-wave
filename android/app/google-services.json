@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "410740142462-4h4v2earo9u6u75h8j6cp1mgg8bleg2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wise_wave",
+            "certificate_hash": "f10e0644490ee61e1f5464301fdad1b4538e03e2"
+          }
+        },
+        {
           "client_id": "410740142462-fam5imt8ssgdp8eeok3arndo1pg5dvsg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -57,6 +65,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "410740142462-qn0on3toq5hl7o5apollthkjvvdmeh5q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wisewave",
+            "certificate_hash": "f10e0644490ee61e1f5464301fdad1b4538e03e2"
+          }
+        },
+        {
+          "client_id": "410740142462-ueeivuqb0i0slo7254dk0k5ts2hiftag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wisewave",
+            "certificate_hash": "28174c7a53a7e9ca904b2c5693df85419c8c7ec9"
+          }
+        },
         {
           "client_id": "410740142462-1bie1o06flcqajn8drfrf984mubll3j9.apps.googleusercontent.com",
           "client_type": 3
