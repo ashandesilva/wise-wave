@@ -12,17 +12,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.only(top: 150.0),
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.only(top: 130.0),
         decoration: setMainBgGradient(),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                _getCheckInsCard(context),
-                _getQuoteCard(),
-                _getDailyChallangeCard(context),
-              ],
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  _getCheckInsCard(context),
+                  _getQuoteCard(),
+                  _getDailyChallangeCard(context),
+                ],
+              ),
             ),
           ),
         ),

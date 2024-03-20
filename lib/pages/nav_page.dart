@@ -8,6 +8,7 @@ import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:wisewave/screens/chat_screen.dart';
 import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
+import 'package:wisewave/screens/analytics_screen.dart';
 import 'package:wisewave/screens/user_profile_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 
@@ -38,12 +39,11 @@ class _NavPageState extends State<NavPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: currentPageIndex == 3 || currentPageIndex == 2
-          ? _getAltAppBar()
-          : myAppBar(
-              "$_userName!",
-              UserProfileScreen(userName: _userName).userProfilePic,
-            ),
+      appBar: myAppBar(
+          "$_userName!",
+          UserProfileScreen(userName: _userName).userProfilePic,
+          currentPageIndex,
+          context),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -60,7 +60,7 @@ class _NavPageState extends State<NavPage> {
       // Chat screen content.
       const ChatScreen(),
       // User profile screen content.
-      UserProfileScreen(userName: _userName),
+      const AnalyticsScreen(),
     ];
   }
 
@@ -118,7 +118,7 @@ class _NavPageState extends State<NavPage> {
             _home_navigator(),
             _check_in_navigator(),
             _message_navigator(),
-            _user_profile_navigator(),
+            _analytics_navigator(),
           ],
         ),
       ),
@@ -126,24 +126,24 @@ class _NavPageState extends State<NavPage> {
   }
 
   // ignore: non_constant_identifier_names
-  NavigationDestination _user_profile_navigator() {
+  NavigationDestination _analytics_navigator() {
     return const NavigationDestination(
       selectedIcon: Badge(
         alignment: Alignment(0, -7.8),
         smallSize: 19,
         backgroundColor: Color(0xFF53A688),
         child: Iconify(
-          Bxs.user,
+          Bxs.analyse,
           size: 30,
           color: Color(0xFF53A688),
         ),
       ),
       icon: Iconify(
-        Bx.user,
+        Bx.analyse,
         size: 30,
         color: Color(0xFF472732),
       ),
-      label: 'user',
+      label: 'Analytics',
     );
   }
 
@@ -167,7 +167,7 @@ class _NavPageState extends State<NavPage> {
           size: 30,
           color: Color(0xFF472732),
         ),
-        label: 'Messages',
+        label: 'Chat',
       ),
     );
   }
@@ -192,7 +192,7 @@ class _NavPageState extends State<NavPage> {
           size: 30,
           color: Color.fromARGB(255, 71, 39, 50),
         ),
-        label: 'Notifications',
+        label: 'Check-Ins',
       ),
     );
   }
@@ -216,37 +216,6 @@ class _NavPageState extends State<NavPage> {
         color: Color(0xFF472732),
       ),
       label: 'Home',
-    );
-  }
-
-  AppBar _getAltAppBar() {
-    return AppBar(
-      title: Text(
-        currentPageIndex == 3
-            ? "Profile"
-            : currentPageIndex == 2
-                ? "AI Assistant"
-                : "",
-        style: const TextStyle(
-          color: Color(0xFF373737),
-          fontWeight: FontWeight.bold,
-          fontSize: 25,
-        ),
-      ),
-      centerTitle: true,
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 242, 195, 178),
-              Color.fromARGB(255, 229, 168, 182)
-            ],
-            stops: [0, 1],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-      ),
     );
   }
 }

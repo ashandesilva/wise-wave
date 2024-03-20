@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
@@ -20,9 +21,10 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _myAppBar(context),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: const EdgeInsets.only(top: 130.0),
+        padding: const EdgeInsets.only(top: 30.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
@@ -49,6 +51,57 @@ class UserProfileScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  AppBar _myAppBar(BuildContext context) {
+    return AppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      automaticallyImplyLeading: false,
+      title: const Padding(
+        padding: EdgeInsets.only(left: 10.0),
+        child: Text(
+          "Profile",
+          style: TextStyle(
+            color: Color(0xFF373737),
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 242, 195, 178),
+              Color.fromARGB(255, 229, 168, 182)
+            ],
+            stops: [0, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () async {
+            Navigator.pop(context);
+          },
+          child: const Image(
+            width: 45,
+            image: AssetImage("assets/images/close-button.png"),
+          ),
+        ),
+        const SizedBox(width: 20),
+      ],
+      bottom: const PreferredSize(
+        preferredSize: Size(0, 10),
+        child: SizedBox(height: 0),
       ),
     );
   }
