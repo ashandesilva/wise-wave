@@ -47,7 +47,7 @@ class UserProfileScreen extends StatelessWidget {
               const SizedBox(height: 25),
               settingsListTile(),
               const SizedBox(height: 25),
-              logoutListTile()
+              logoutListTile(context),
             ],
           ),
         ),
@@ -213,7 +213,7 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 
-  Material logoutListTile() {
+  Material logoutListTile(BuildContext context) {
     return Material(
       elevation: 10,
       shadowColor: const Color.fromARGB(90, 0, 0, 0),
@@ -230,8 +230,9 @@ class UserProfileScreen extends StatelessWidget {
             color: Color(0xFF373737),
           ),
         ),
-        onTap: () {
+        onTap: () async {
           signUserOut();
+          Navigator.pop(context);
         },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),
