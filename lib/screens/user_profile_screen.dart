@@ -1,9 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/components/theme/nav_bg_gradient.dart';
+import 'package:wisewave/pages/login_or_singup_page.dart';
+import 'package:wisewave/screens/settings_screen.dart';
+import 'package:image_picker/image_picker.dart'; 
 
-class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+class UserProfileScreen extends StatefulWidget {
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+
+  File _image = File('assets/images/profile-pic-sample.png');
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +39,45 @@ class UserProfileScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: const EdgeInsets.all(50.0),
-        child: const Column(
+        padding: EdgeInsets.all(50.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                CircleAvatar(
-                  radius: 80.0,
-                  backgroundImage: AssetImage('assets/images/profile-pic-sample.png'), // replace image
-                  
-                ),
-                
-                Opacity(
-                  opacity: 0.5,
-                  child: Icon(
-                    Icons.camera, // change icon
-                    color: Colors.grey,
-                    size: 60.0,
+                GestureDetector(
+                  onTap: () async {
+                    final picker = ImagePicker();
+                    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+                    if (pickedFile != null) {
+                      setState(() {
+                        _image = File(pickedFile.path);
+                      });
+                    }
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 80.0,
+                        backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : AssetImage('assets/images/profile-pic-sample.png') as ImageProvider<Object>?,
+                      ),
+                      Opacity(
+                        opacity: 0.5,
+                        child: Icon(
+                          Icons.camera,
+                          color: Colors.grey,
+                          size: 60.0,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                ],
-                ),
+),
                 SizedBox(height: 20.0),
                 Center(
                   child: Text(
@@ -68,7 +91,7 @@ class UserProfileScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 50.0),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
@@ -93,12 +116,25 @@ class UserProfileScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(Icons.settings),
-                      SizedBox(width: 10.0),
-                      Text('Settings', 
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SettingsScreen()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.settings),
+                            SizedBox(width: 10.0),
+                            Text('Settings', 
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -109,22 +145,68 @@ class UserProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(Icons.logout),
-                      SizedBox(width: 10.0),
-                      Text('Log out', style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold)),
-                    ],
-                  ),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Icon(Icons.logout),
+      SizedBox(width: 10.0),
+      GestureDetector(
+        onTap: () {
+          showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Log out'),
+              content: Text('Are you sure you want to log out?'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginOrSignupPage()),
+                    );
+                  },
                 ),
               ],
+            );
+          },
+);
+        },
+        child: Text('Log out', style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold)),
+      ),
+    ],
+  ),
+),
+              ],
             ),
+            const Spacer(),
+            Center(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'App Version 1.0.0, \n© 2024 WiseWave. All rights reserved.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.0,
+                    color: Colors.grey[600],
+                ),
+              ),
+            ),
+          ),
           ],
-        ),
+        ), 
       ),
     );
   }
 }
+
+

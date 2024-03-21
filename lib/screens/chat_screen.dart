@@ -2,8 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/components/theme/nav_bg_gradient.dart';
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class Message {
+  final String text;
+  final bool isSentByUser;
+
+  Message({required this.text, required this.isSentByUser});
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final List<Message> messages = [];
+  final ScrollController _scrollController = ScrollController();
+
+
+void sendMessage(String text) {
+    final message = Message(text: text, isSentByUser: true);
+    setState(() {
+      messages.add(message);
+      _textEditingController.clear();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    });
+    // TODO: Make API call to send message
+  }
+
+  void receiveMessage(String text) {
+    final message = Message(text: text, isSentByUser: false);
+    setState(() {
+      messages.add(message);
+
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    });
+    // TODO: Make API call to receive message
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +77,28 @@ class ChatScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const Text(
-              'Hi, Sarina How can I help you?',
-              style: TextStyle(fontSize: 20.0),
-            ),
-            const SizedBox(height: 20.0),
             Expanded(
-              child: ListView(
-                children: const [],
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+                  return Align(
+                    alignment: message.isSentByUser ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5.0),
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: message.isSentByUser ? Colors.green[300]!.withOpacity(0.4) : Colors.blue[300]!.withOpacity(0.4),
+                      ),
+                      child: Text(
+                        message.text,
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Container(
@@ -45,11 +108,12 @@ class ChatScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _textEditingController,
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Enter your message',
                         ),
@@ -61,7 +125,7 @@ class ChatScreen extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.send),
                     onPressed: () {
-                      // TODO: Implement send message functionality
+                      sendMessage(_textEditingController.text);
                     },
                   ),
                 ],
@@ -73,3 +137,7 @@ class ChatScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
