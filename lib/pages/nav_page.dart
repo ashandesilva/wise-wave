@@ -64,35 +64,46 @@ class _NavPageState extends State<NavPage> {
     ];
   }
 
-  Padding getFabButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: SizedBox(
-        width: 70,
-        height: 70,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _isFabButtonToggle = !_isFabButtonToggle;
-              });
-            },
-            elevation: 0,
-            backgroundColor: const Color(0xFF59B292),
-            child: _isFabButtonToggle
-                ? const Iconify(
-                    Fa.close,
-                    size: 24,
-                    color: Color(0xffF2FFE9),
-                  )
-                : const Iconify(
-                    Fa.plus,
-                    size: 24,
-                    color: Color(0xffF2FFE9),
-                  ),
+  Stack getFabButton() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        if (_isFabButtonToggle)
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+        Positioned(
+          bottom: 20.0,
+          child: SizedBox(
+            width: 70,
+            height: 70,
+            child: FittedBox(
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _isFabButtonToggle = !_isFabButtonToggle;
+                  });
+                },
+                elevation: 0,
+                backgroundColor: const Color(0xFF59B292),
+                child: _isFabButtonToggle
+                    ? const Iconify(
+                        Fa.close,
+                        size: 24,
+                        color: Color(0xffF2FFE9),
+                      )
+                    : const Iconify(
+                        Fa.plus,
+                        size: 24,
+                        color: Color(0xffF2FFE9),
+                      ),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
