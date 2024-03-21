@@ -1,10 +1,34 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wisewave/screens/user_profile_screen.dart';
 
 AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
     BuildContext context) {
+  //retrive user name from firestore and display it in the app bar  
   String defaultProfilePic = "assets/images/default-profile-pic.png";
+
+  // Retrieve user name from Firestore
+  // StreamBuilder<DocumentSnapshot>(
+  //   stream: FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc('user_id')
+  //       .snapshots(),
+  //   builder: (context, snapshot) {
+  //     if (!snapshot.hasData) {
+  //       return CircularProgressIndicator();
+  //     }
+  //     String userName = snapshot.data!['name'];
+  //     return Text(
+  //       "Hi $userName",
+  //       style: const TextStyle(
+  //         color: Color(0xFF373737),
+  //         fontSize: 30,
+  //         fontWeight: FontWeight.bold,
+  //       ),
+  //     );
+  //   },
+  // );
 
   return AppBar(
     systemOverlayStyle: const SystemUiOverlayStyle(

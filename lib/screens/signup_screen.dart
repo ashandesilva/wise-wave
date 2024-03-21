@@ -119,7 +119,7 @@ class _SignupPageState extends State<SignupPage> {
                                 ),
                               ),
                               leading: Image.asset('assets/images/Google.png'),
-                              onTap: () => AuthService().signInWithGoogle(),
+                              onTap: () => AuthService().signInWithGoogle(context),
                               tileColor: const Color(0xFFFFFFFF),
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
