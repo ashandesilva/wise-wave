@@ -5,31 +5,50 @@ import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:wisewave/pages/add_check_ins_page.dart';
 import 'package:wisewave/pages/daily_challange.dart';
 
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  
+  //retrive uid from auth service page
+  final String uid;
+  HomeScreen({required this.uid});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(top: 130.0),
-        decoration: setMainBgGradient(),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  _getCheckInsCard(context),
-                  _getQuoteCard(),
-                  _getDailyChallangeCard(context),
-                ],
+    //add stream builder to get user data from firestore
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final username = snapshot.data!.get('name');
+          return Scaffold(
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.only(top: 130.0),
+              decoration: setMainBgGradient(),
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        _getCheckInsCard(context),
+                        _getQuoteCard(username),
+                        _getDailyChallangeCard(context),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 
@@ -103,8 +122,8 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  Padding _getQuoteCard() {
+  
+  Padding _getQuoteCard(String username) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
       child: Card(
@@ -113,8 +132,8 @@ class HomeScreen extends StatelessWidget {
         color: const Color(0xFFE3F4F7),
         surfaceTintColor: const Color(0xFFE3F4F7),
         shape: _roundCardCorners(),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
             vertical: 30,
             horizontal: 20,
           ),
@@ -128,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     width: 250,
                     child: Text(
-                      '“It is better to conquer yourself than to win a thousand battles”',
+                      'Welcome, $username! It is better to conquer yourself than to win a thousand battles',
                     ),
                   ),
                 ],

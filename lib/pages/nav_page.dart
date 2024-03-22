@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/my_app_bar.dart';
@@ -13,7 +14,11 @@ import 'package:wisewave/screens/user_profile_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 
 class NavPage extends StatefulWidget {
-  const NavPage({super.key, required this.index});
+  // const NavPage({super.key, required this.index});
+
+  //retrive uid from auth service page
+  final String uid;
+  NavPage({required this.uid, required this.index});
 
   final int index;
 
@@ -28,7 +33,28 @@ class _NavPageState extends State<NavPage> {
   int currentPageIndex;
   bool _isFabButtonToggle = false;
 
-  final String _userName = "Naaji";
+  String _userName = '';  
+
+  void getUserData() async {
+    // Retrieve user data from Firebase using the UID
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get();
+
+    // Get the user name from the snapshot
+    if (snapshot.exists) {
+      setState(() {
+        _userName = (snapshot.data() as Map<String, dynamic>)['name'];
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
 
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();
@@ -40,8 +66,7 @@ class _NavPageState extends State<NavPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: myAppBar(
-          "$_userName!",
-          UserProfileScreen(userName: _userName).userProfilePic,
+          _userName,
           currentPageIndex,
           context),
       body: getNavScreenBody[currentPageIndex],
@@ -54,7 +79,8 @@ class _NavPageState extends State<NavPage> {
   List<Widget> get getNavScreenBody {
     return <Widget>[
       // Home screen content.
-      const HomeScreen(),
+      // pass current user id to the Home screen
+      HomeScreen(uid: widget.uid),
       // checkIns screen content.
       const CheckInScreen(),
       // Chat screen content.

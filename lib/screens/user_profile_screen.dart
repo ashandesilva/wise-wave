@@ -1,23 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
+import 'package:wisewave/screens/userprofile.dart';
 
 // ignore: must_be_immutable
-class UserProfileScreen extends StatelessWidget {
-  String userName;
+class UserProfileScreen extends StatefulWidget {
+  UserProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+  //retrive uid from auth service page
+  // final User? user = FirebaseAuth.instance.currentUser;
+  // String? uid;
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  String userName = '';
   final String _userProfilePic = "assets/images/profile-pic-sample.png";
 
   String get userProfilePic => _userProfilePic;
 
-  UserProfileScreen({super.key, required this.userName});
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    // Get the current user's ID
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Fetch the user document from Firestore
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    // Get the 'name' field from the user document
+    setState(() {
+      userName = userSnapshot['name'];
+    });
+  }
 
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();
   }
-
+  
+  late Future<String?> userNameFuture;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +67,7 @@ class UserProfileScreen extends StatelessWidget {
               // name text
               Center(
                 child: Text(
-                  userName,
+                  userName ?? '',
                   style: const TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
@@ -154,7 +187,11 @@ class UserProfileScreen extends StatelessWidget {
             color: Color(0xFF373737),
           ),
         ),
-        onTap: () {},
+        onTap: () {Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserProfile()),
+        );},
+          
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),
         splashColor: const Color(0xFFFFFFFF),
