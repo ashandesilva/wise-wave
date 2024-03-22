@@ -6,8 +6,13 @@ import 'package:wisewave/pages/nav_page.dart';
 //import 'package:wise_wave/screens/login_screen.dart';
 //import 'package:wise_wave/screens/login_screen.dart';
 class AuthPage extends StatelessWidget {
-  const AuthPage({super.key});
 
+  
+  // const AuthPage({super.key});
+ 
+  final User? user = FirebaseAuth.instance.currentUser;
+  String? uid;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +20,8 @@ class AuthPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const NavPage(index: 0);
+            //pass current user id to the nav page
+            return NavPage(uid: user!.uid, index: 0,);
           } else {
             //return const SignupPage();
             return const LoginOrSignupPage();
@@ -24,4 +30,6 @@ class AuthPage extends StatelessWidget {
       ),
     );
   }
+
+  
 }

@@ -1,34 +1,18 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wisewave/screens/user_profile_screen.dart';
+import 'package:wisewave/screens/userprofile.dart';
 
-AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
-    BuildContext context) {
-  //retrive user name from firestore and display it in the app bar  
+AppBar myAppBar(String name, int currentPageIndex, BuildContext context) {
+  //retrive uid from auth service page
+  final user = FirebaseAuth.instance.currentUser;
+  String? uid = user?.uid;
+
   String defaultProfilePic = "assets/images/default-profile-pic.png";
-
-  // Retrieve user name from Firestore
-  // StreamBuilder<DocumentSnapshot>(
-  //   stream: FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc('user_id')
-  //       .snapshots(),
-  //   builder: (context, snapshot) {
-  //     if (!snapshot.hasData) {
-  //       return CircularProgressIndicator();
-  //     }
-  //     String userName = snapshot.data!['name'];
-  //     return Text(
-  //       "Hi $userName",
-  //       style: const TextStyle(
-  //         color: Color(0xFF373737),
-  //         fontSize: 30,
-  //         fontWeight: FontWeight.bold,
-  //       ),
-  //     );
-  //   },
-  // );
+  const String userProfilePic = "assets/images/profile-pic-sample.png";
 
   return AppBar(
     systemOverlayStyle: const SystemUiOverlayStyle(
@@ -39,24 +23,39 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
     automaticallyImplyLeading: false,
     titleSpacing: 20,
     elevation: 0,
-    title: currentPageIndex == 0
-        ? RichText(
-            text: TextSpan(
-              text: "Hi ",
-              style: const TextStyle(
-                color: Color(0xFF373737),
-                fontSize: 30,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+    title: StreamBuilder<DocumentSnapshot>(
+stream: FirebaseFirestore.instance
+    .collection('users')
+    .doc(uid)
+    .snapshots(),
+builder: (context, snapshot) {
+  if (snapshot.connectionState == ConnectionState.waiting) {
+    return CircularProgressIndicator();
+  } else if (!snapshot.hasData || snapshot.data!.data() == null) {
+    // Handle case where data is not available
+    return Text("No Data");
+  }
+
+  
+
+  return currentPageIndex == 0
+      ? RichText(
+          text: TextSpan(
+            // text: "Hi ${snapshot.data!['name']} ",
+            style: const TextStyle(
+              color: Color(0xFF373737),
+              fontSize: 30,
             ),
-          )
+            children: <TextSpan>[
+              TextSpan(
+                text: "Hi ${snapshot.data!['name']} ",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        )
         : currentPageIndex == 1
             ? Text(
                 "Check-Ins",
@@ -70,12 +69,16 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
                 : Text(
                     "Analytics",
                     style: _altTitleStyle(),
-                  ),
+                );
+},
+    ),
     actions: <Widget>[
       GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return UserProfileScreen(userName: name);
+            return UserProfileScreen();
+            //create new user profile to check firestore dynamic data, remove the old one
+            // return UserProfile();
           }));
         },
         child: CircleAvatar(
@@ -97,6 +100,9 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
     ),
   );
 }
+    
+  
+
 
 TextStyle _altTitleStyle() {
   return const TextStyle(

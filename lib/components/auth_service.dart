@@ -38,7 +38,7 @@ class AuthService {
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+                builder: (context) => HomeScreen(uid: user!.uid),
             ),
           );
         } else {
@@ -48,7 +48,7 @@ class AuthService {
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => HomeScreen(uid: user!.uid),
             ),
           );
         }

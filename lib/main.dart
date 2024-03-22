@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appTitle,
       theme: ThemeData(fontFamily: 'Rubik'), // Epilogue or Rubik
-      home: const AuthPage(),
+      //changed const on authpage to acomodate user id
+      home:  AuthPage(),
       debugShowCheckedModeBanner: false,
     );
   }
