@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wisewave/components/theme/themeProvider.dart';
 import 'package:wisewave/pages/login_or_singup_page.dart';
 
 import '../components/theme/main_bg_gradient.dart';
@@ -12,31 +14,33 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        //backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text('Settings',
             style: TextStyle(
             fontWeight: FontWeight.bold, 
             fontSize: 24.0,
           ),
           ),
+          flexibleSpace: Container(
+          decoration: setNavBgGradient(),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-                flexibleSpace: Container(
-          decoration: setNavBgGradient(),
-        ),
       ),
       body: Container(
         decoration: setMainBgGradient(),
+        //color: Theme.of(context).colorScheme.background,
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: ListView(
             children: [
-              ListTile(
+              ListTile( // username change
                 leading: Icon(Icons.person),
-                title: Text('Username Change'),
+                title: Text('Change Username'),
                 onTap: () {
                   showDialog(
                     context: context,
@@ -78,16 +82,15 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
               Divider(),
-
-              ListTile(
+              ListTile( // password change
                 leading: Icon(Icons.lock),
-                title: Text('Password Change'),
+                title: Text('Change Password'),
                 onTap: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Password Change', textAlign: TextAlign.center),
+                        title: Text('Change Password', textAlign: TextAlign.center),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -144,7 +147,137 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
               Divider(),
-              ListTile(
+              ListTile( // change theme
+                leading: Icon(Icons.color_lens),
+                title: Text('Change Theme'),
+                onTap: () {
+                  showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      //title: Text('Choose an Option', textAlign: TextAlign.center),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+
+                          ElevatedButton(
+                              onPressed: () {
+                                //Provider.of<ThemeProvider>(context).togleTheme(3); //nature
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                shape: MaterialStateProperty.all(CircleBorder()),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(Colors.transparent),
+                              ),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                colors: [Color.fromARGB(255, 184, 215, 229),Color.fromARGB(255, 242, 195, 178)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ),
+                          ElevatedButton(
+                              onPressed: () {
+                                //Provider.of<ThemeProvider>(context).togleTheme(3); //nature
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                shape: MaterialStateProperty.all(CircleBorder()),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(Colors.transparent),
+                              ),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [Colors.grey, Color.fromARGB(255, 48, 48, 48)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                //Provider.of<ThemeProvider>(context).togleTheme(3); //nature
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                shape: MaterialStateProperty.all(CircleBorder()),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(Colors.transparent),
+                              ),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                  colors: [Color.fromRGBO(236, 206, 130, 1), Color.fromARGB(255, 154, 114, 99)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ),
+
+                            ElevatedButton(
+                              onPressed: () {
+                                //Provider.of<ThemeProvider>(context).togleTheme(3); //nature
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                shape: MaterialStateProperty.all(CircleBorder()),
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(Colors.transparent),
+                              ),
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [const Color.fromRGBO(165, 214, 167, 1), Color.fromARGB(255, 96, 234, 167)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+                }
+              ),
+              Divider(),
+              ListTile( //Notifications
                 leading: Icon(Icons.notifications),
                 title: Text('Notifications'),
                 onTap: () {
@@ -181,12 +314,12 @@ class SettingsScreen extends StatelessWidget {
               },
               ),
               Divider(),
-              ListTile(
+              ListTile( // clear chats
                 leading: Icon(Icons.clear_all),
                 title: Text('Clear Chats'),
               ),
               Divider(),
-              ListTile(
+              ListTile( // delete account
   leading: Icon(Icons.delete),
   title: Text('Delete Account'),
   onTap: () {
@@ -198,13 +331,14 @@ class SettingsScreen extends StatelessWidget {
           content: Text('Are you sure you want to delete the account?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: Text('No', style: TextStyle(color: Colors.black)),
+              
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: Text('Yes', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop();
                 showDialog(
@@ -220,7 +354,7 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       actions: <Widget>[
                         TextButton(
-                          child: Text('Delete'),
+                          child: Text('Delete', style: TextStyle(color: Colors.black)),
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
@@ -247,3 +381,4 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+
