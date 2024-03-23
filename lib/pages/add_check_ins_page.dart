@@ -42,7 +42,7 @@ class AddCheckInPage extends StatefulWidget {
   
   //retrive uid from HomeScreen page
   final String uid;
-  const AddCheckInPage(this.uid);
+  const AddCheckInPage({required this.uid, super.key});
 
   @override
   State<AddCheckInPage> createState() => _AddCheckInPageState();

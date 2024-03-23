@@ -76,7 +76,7 @@ class _NavPageState extends State<NavPage> {
       HomeScreen(uid: widget.uid),
       // checkIns screen content.
       // pass current user id to the CheckIn screen
-      CheckInScreen(uid : widget.uid),
+      CheckInScreen(uid: widget.uid),
       // Chat screen content.
       const ChatScreen(),
       // User profile screen content.
@@ -98,7 +98,6 @@ class _NavPageState extends State<NavPage> {
           Stack(
             alignment: Alignment.center,
             children: [
-              
               Positioned(
                 bottom: 75.0,
                 child: Container(
@@ -148,7 +147,7 @@ class _NavPageState extends State<NavPage> {
                         onPressed: () async {
                           await Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const AddCheckInPage();
+                            return AddCheckInPage(uid: widget.uid);
                           }));
 
                           setState(() {
@@ -229,7 +228,7 @@ class _NavPageState extends State<NavPage> {
         ),
       ],
     );
-}
+  }
 
   Container getBottomNavBar() {
     return Container(

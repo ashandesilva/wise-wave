@@ -5,12 +5,10 @@ import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:wisewave/pages/add_check_ins_page.dart';
 import 'package:wisewave/pages/daily_challange.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wisewave/screens/work_load_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  
   //retrive uid from auth service page
   final String uid;
   const HomeScreen({super.key, required this.uid});
@@ -19,7 +17,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //add stream builder to get user data from firestore
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
+      stream:
+          FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final username = snapshot.data!.get('name');
@@ -67,9 +66,18 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
           ),
         ),
-        onPressed: () async { async;{ await Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const WorkLoadScreen();
-        }));}},
+        onPressed: () async {
+          {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const WorkLoadScreen();
+                },
+              ),
+            );
+          }
+        },
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -86,7 +94,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-    ),
+      ),
     );
   }
 
@@ -94,7 +102,7 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return new AddCheckInPage(uid);
+          return AddCheckInPage(uid: uid);
         }));
       },
       child: Card(
@@ -160,7 +168,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Padding _getQuoteCard(String username) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
