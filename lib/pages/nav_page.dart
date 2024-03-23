@@ -42,8 +42,8 @@ class _NavPageState extends State<NavPage> {
     // Get the user name from the snapshot
     if (snapshot.exists) {
       setState(() {
-        _userName = (snapshot.data() as Map<String, dynamic>)['name'];
-        _userProfile = (snapshot.data() as Map<String, dynamic>)['photoUrl'];
+        _userName = (snapshot.data() as Map<String, dynamic>)['name'] ?? '';
+        _userProfile = (snapshot.data() as Map<String, dynamic>)['photoUrl'] ?? '';
       });
     }
   }

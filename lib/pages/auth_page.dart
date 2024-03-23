@@ -23,7 +23,7 @@ class AuthPage extends StatelessWidget {
           if (snapshot.hasData) {
             //pass current user id to the nav page
             return NavPage(
-              uid: user!.uid,
+              uid: snapshot.data!.uid,
               index: 0,
             );
           } else {
