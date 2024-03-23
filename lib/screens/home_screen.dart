@@ -7,6 +7,7 @@ import 'package:wisewave/pages/daily_challange.dart';
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wisewave/screens/work_load_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   
@@ -33,9 +34,10 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
-                        _getCheckInsCard(context),
+                        _getCheckInsCard(context, uid),
                         _getQuoteCard(username),
                         _getDailyChallangeCard(context),
+                        _getWorkLoadBtn(context),
                       ],
                     ),
                   ),
@@ -52,11 +54,47 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  GestureDetector _getCheckInsCard(BuildContext context) {
+  GestureDetector _getWorkLoadBtn(BuildContext context) {
+    return GestureDetector(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFE58C8F),
+          padding: const EdgeInsets.symmetric(
+            vertical: 15,
+            horizontal: 30,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+        ),
+        onPressed: () async { async;{ await Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return const WorkLoadScreen();
+        }));}},
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "View Workload",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+            Icon(
+              Icons.work,
+              color: Colors.white,
+            ),
+          ],
+        ),
+    ),
+    );
+  }
+
+  GestureDetector _getCheckInsCard(BuildContext context, uid) {
     return GestureDetector(
       onTap: () async {
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const AddCheckInPage();
+          return new AddCheckInPage(uid);
         }));
       },
       child: Card(
@@ -152,7 +190,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Image(
                   image: AssetImage("assets/images/fa_quote-left.png"),
