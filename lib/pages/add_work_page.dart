@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/pages/add_check_ins_page.dart';
 
@@ -11,6 +12,15 @@ class AddWorkPage extends StatefulWidget {
 }
 
 class _AddWorkPageState extends State<AddWorkPage> {
+ late  DateTime _focusedDay;
+ DateTime? _selectDay;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusedDay = DateTime.now();
+     // Initialize _focusedDay to the current date
+  }
    String _bottmButtonText = "Add My Work";
   Widget _leadingIcon = const Text('');
   bool _isBottomButtonPressed = false;
@@ -20,79 +30,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
   final TextEditingController _addDetailsTextFieldController =
       TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-     Container checkInBody =
-        !_isBottomButtonPressed ? _workLoadBody() : _workLoadBody();
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      appBar: _myAppBar(context),
-      body: checkInBody,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _bottomButton(context),
-     
-    );
-  }
-  Padding _bottomButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 242, 195, 178),
-                    Color.fromARGB(255, 229, 168, 182)
-                  ],
-                  stops: [0, 1],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(100)),
-              ),
-            ),
-          ),
-          FilledButton(
-            onPressed: _isSliderChanged
-                ? () {
-                    setState(() {
-                      if (!_isBottomButtonPressed) {
-                        _bottmButtonText = "Add Work";
-                        _isBottomButtonPressed = true;
-                        _leadingIcon = _getLeadingBackIcon();
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    });
-                  }
-                : null,
-            style: const ButtonStyle(
-              fixedSize: MaterialStatePropertyAll(Size(250, 60)),
-              backgroundColor: MaterialStatePropertyAll(Colors.transparent),
-            ),
-            child: Text(
-              _bottmButtonText,
-              style: const TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
-                shadows: <Shadow>[
-                  Shadow(
-                    offset: Offset(0, 1.5),
-                    color: Color.fromARGB(38, 0, 0, 0),
-                    blurRadius: 30,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Container _workLoadBody() {
+  Widget _workLoadBody() {
     return Container(
       decoration: setMainBgGradient(),
       child: Center(
@@ -103,6 +41,48 @@ class _AddWorkPageState extends State<AddWorkPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                TableCalendar(
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
+                focusedDay: _focusedDay,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectDay = selectedDay;
+                    _focusedDay = _focusedDay;
+                  });
+                },
+                onPageChanged: (focusedDay){
+                  _focusedDay = focusedDay;
+                },
+                calendarStyle: CalendarStyle(
+    // Use `CalendarStyle` to customize the calendar's appearance
+                  outsideDaysVisible: true,
+                  defaultTextStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  weekendTextStyle: const TextStyle().copyWith(color: Colors.red[800]),
+                  holidayTextStyle: const TextStyle().copyWith(color: Colors.green[800]),
+                ),
+                daysOfWeekStyle: DaysOfWeekStyle(
+                  // Use `DaysOfWeekStyle` to customize the appearance of the days of the week
+                  weekendStyle: const TextStyle().copyWith(color: Colors.red[600]),
+                ),
+                headerStyle: HeaderStyle(
+                  // Use `HeaderStyle` to customize the appearance of the calendar's header
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                  formatButtonShowsNext: true,
+                  formatButtonDecoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  formatButtonTextStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+                const SizedBox(height: 20),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   child: TextField(
@@ -185,7 +165,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
                         borderSide: const BorderSide(color: Color(0xFFE3F4F7)),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: 'Add some notes...',
+                      hintText: 'Add Details of the Work...',
                       hintStyle: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -201,6 +181,80 @@ class _AddWorkPageState extends State<AddWorkPage> {
       )
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+     Widget checkInBody =
+        !_isBottomButtonPressed ? _workLoadBody() : _workLoadBody();
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      appBar: _myAppBar(context),
+      body: checkInBody,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _bottomButton(context),
+     
+    );
+  }
+  Padding _bottomButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 242, 195, 178),
+                    Color.fromARGB(255, 229, 168, 182)
+                  ],
+                  stops: [0, 1],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: _isSliderChanged
+                ? () {
+                    setState(() {
+                      if (!_isBottomButtonPressed) {
+                        _bottmButtonText = "Add Work";
+                        _isBottomButtonPressed = true;
+                        _leadingIcon = _getLeadingBackIcon();
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    });
+                  }
+                : null,
+            style: const ButtonStyle(
+              fixedSize: MaterialStatePropertyAll(Size(250, 60)),
+              backgroundColor: MaterialStatePropertyAll(Colors.transparent),
+            ),
+            child: Text(
+              _bottmButtonText,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 18,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(0, 1.5),
+                    color: Color.fromARGB(38, 0, 0, 0),
+                    blurRadius: 30,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
   AppBar _myAppBar(BuildContext context) {
     return AppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
@@ -252,5 +306,5 @@ class _AddWorkPageState extends State<AddWorkPage> {
         ),
       ],
     );
-  }
+  } 
 }
