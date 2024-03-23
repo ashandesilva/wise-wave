@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "410740142462-bva0o8b3otur3q92pkepcmvt22iigjr7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wise_wave",
+            "certificate_hash": "2c8f2d8558b33fcbefcf3db324d8f08c9987ff63"
+          }
+        },
+        {
           "client_id": "410740142462-fam5imt8ssgdp8eeok3arndo1pg5dvsg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
