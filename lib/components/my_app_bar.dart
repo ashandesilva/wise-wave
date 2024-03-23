@@ -37,7 +37,7 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
           )
         : currentPageIndex == 1
             ? Text(
-                "Check-Ins",
+                "Journals",
                 style: _altTitleStyle(),
               )
             : currentPageIndex == 2
