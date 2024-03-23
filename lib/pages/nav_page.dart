@@ -12,6 +12,7 @@ import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
 import 'package:wisewave/screens/analytics_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
+import 'package:wisewave/screens/work_load_screen.dart';
 
 class NavPage extends StatefulWidget {
   //retrive uid from auth service page
@@ -99,9 +100,9 @@ class _NavPageState extends State<NavPage> {
             alignment: Alignment.center,
             children: [
               Positioned(
-                bottom: 75.0,
+                bottom: 80.0,
                 child: Container(
-                  height: 180,
+                  height: 210,
                   width: 250,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
@@ -121,6 +122,7 @@ class _NavPageState extends State<NavPage> {
                     children: <Widget>[
                       FilledButton(
                         style: const ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
                           padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.transparent),
@@ -157,6 +159,7 @@ class _NavPageState extends State<NavPage> {
                       ),
                       FilledButton(
                         style: const ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
                           padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.transparent),
@@ -184,6 +187,43 @@ class _NavPageState extends State<NavPage> {
                           await Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return const DailyChallange();
+                          }));
+
+                          setState(() {
+                            _isFabButtonToggle = !_isFabButtonToggle;
+                          });
+                        },
+                      ),
+                      FilledButton(
+                        style: const ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.transparent),
+                        ),
+                        child: const Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              'Workload',
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Iconify(
+                              Bx.briefcase,
+                              color: Color(0xffffffff),
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          await Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const WorkLoadScreen();
                           }));
 
                           setState(() {

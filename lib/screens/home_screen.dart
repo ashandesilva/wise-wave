@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             body: Container(
               height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.only(top: 130.0),
+              padding: const EdgeInsets.only(top: 110.0),
               decoration: setMainBgGradient(),
               child: SingleChildScrollView(
                 child: Center(
@@ -36,6 +36,7 @@ class HomeScreen extends StatelessWidget {
                         _getCheckInsCard(context, uid),
                         _getQuoteCard(username),
                         _getDailyChallangeCard(context),
+                        const SizedBox(height: 25),
                         _getWorkLoadBtn(context),
                       ],
                     ),
@@ -57,13 +58,16 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFE58C8F),
+          splashFactory: NoSplash.splashFactory,
+          shadowColor: const Color.fromARGB(67, 0, 0, 0),
+          elevation: 10,
+          surfaceTintColor: const Color(0xFFE3F4F7),
+          backgroundColor: const Color(0xFFE3F4F7),
           padding: const EdgeInsets.symmetric(
-            vertical: 15,
-            horizontal: 30,
+            vertical: 25,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         onPressed: () async {
@@ -81,17 +85,28 @@ class HomeScreen extends StatelessWidget {
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "View Workload",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "View Workload",
+                  style: TextStyle(
+                      color: Color(0xff373737),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800),
+                ),
+                Text(
+                  "Check for upcoming tasks.",
+                  style: TextStyle(color: Color(0xff474747)),
+                )
+              ],
             ),
-            Icon(
-              Icons.work,
-              color: Colors.white,
+            SizedBox(width: 40),
+            Image(
+              image: AssetImage("assets/images/fa-suite-case.png"),
+              width: 70,
             ),
+            SizedBox(width: 5),
           ],
         ),
       ),
@@ -171,7 +186,7 @@ class HomeScreen extends StatelessWidget {
 
   Padding _getQuoteCard(String username) {
     return Padding(
-      padding: const EdgeInsets.only(top: 25),
+      padding: const EdgeInsets.only(top: 20),
       child: Card(
         shadowColor: const Color.fromARGB(67, 0, 0, 0),
         elevation: 10,
@@ -184,7 +199,6 @@ class HomeScreen extends StatelessWidget {
             horizontal: 20,
           ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
@@ -199,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const Padding(
-                padding: EdgeInsets.only(left: 30),
+                padding: EdgeInsets.only(left: 10),
                 child: Image(
                   image: AssetImage("assets/images/fa_quote-left.png"),
                 ),
@@ -213,7 +227,7 @@ class HomeScreen extends StatelessWidget {
 
   Padding _getDailyChallangeCard(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 25),
+      padding: const EdgeInsets.only(top: 20),
       child: GestureDetector(
         onTap: () async {
           await Navigator.push(context, MaterialPageRoute(builder: (context) {
