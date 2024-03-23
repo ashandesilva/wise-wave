@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,48 +8,28 @@ import 'package:wisewave/screens/userprofile.dart';
 
 // ignore: must_be_immutable
 class UserProfileScreen extends StatefulWidget {
-  UserProfileScreen({Key? key}) : super(key: key);
+  String userName = "";
+  String userProfilePic = "";
+
+  UserProfileScreen({
+    super.key,
+    required this.userName,
+    required this.userProfilePic,
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
-  //retrive uid from auth service page
-  // final User? user = FirebaseAuth.instance.currentUser;
-  // String? uid;
-
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  String userName = '';
   final String _userProfilePic = "assets/images/profile-pic-sample.png";
-
   String get userProfilePic => _userProfilePic;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchUserData();
-  }
-
-  Future<void> fetchUserData() async {
-    // Get the current user's ID
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-
-    // Fetch the user document from Firestore
-    DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
-
-    // Get the 'name' field from the user document
-    setState(() {
-      userName = userSnapshot['name'];
-    });
-  }
 
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();
   }
-  
-  late Future<String?> userNameFuture;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +46,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               // name text
               Center(
                 child: Text(
-                  userName ?? '',
+                  widget.userName,
                   style: const TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
@@ -80,7 +59,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const SizedBox(height: 25),
               settingsListTile(),
               const SizedBox(height: 25),
-              logoutListTile()
+              logoutListTile(context),
             ],
           ),
         ),
@@ -142,30 +121,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   GestureDetector circleAvatar() {
     return GestureDetector(
       onTap: () {},
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          CircleAvatar(
-            radius: 89,
-            backgroundColor: const Color(0xFF474747),
-            child: CircleAvatar(
-              radius: 80.0,
-              backgroundImage: _userProfilePic != ""
-                  ? AssetImage(userProfilePic)
-                  : const AssetImage(
-                      "assets/images/default-profile-pic.png",
-                    ), // replace image
-            ),
-          ),
-          const Opacity(
-            opacity: 0.5,
-            child: Iconify(
-              Bx.bxs_camera, // change icon
-              color: Colors.grey,
-              size: 80.0,
-            ),
-          ),
-        ],
+      child: CircleAvatar(
+        radius: 89,
+        backgroundColor: const Color(0xFF474747),
+        child: _userProfilePic != ""
+            ? CircleAvatar(
+                radius: 80.0,
+                backgroundImage: NetworkImage(
+                  widget.userProfilePic,
+                ),
+              )
+            : const CircleAvatar(
+                radius: 80.0,
+                backgroundImage: AssetImage(
+                  "assets/images/default-profile-pic.png",
+                ),
+              ),
       ),
     );
   }
@@ -187,11 +158,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             color: Color(0xFF373737),
           ),
         ),
-        onTap: () {Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => UserProfile()),
-        );},
-          
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserProfile()),
+          );
+        },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),
         splashColor: const Color(0xFFFFFFFF),
@@ -250,7 +222,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Material logoutListTile() {
+  Material logoutListTile(BuildContext context) {
     return Material(
       elevation: 10,
       shadowColor: const Color.fromARGB(90, 0, 0, 0),
@@ -267,8 +239,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             color: Color(0xFF373737),
           ),
         ),
-        onTap: () {
+        onTap: () async {
           signUserOut();
+          Navigator.pop(context);
         },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),

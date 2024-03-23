@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/my_app_bar.dart';
 import 'package:wisewave/components/theme/nav_bg_gradient.dart';
@@ -10,17 +9,14 @@ import 'package:wisewave/screens/chat_screen.dart';
 import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
 import 'package:wisewave/screens/analytics_screen.dart';
-import 'package:wisewave/screens/user_profile_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 
 class NavPage extends StatefulWidget {
-  // const NavPage({super.key, required this.index});
-
   //retrive uid from auth service page
   final String uid;
-  NavPage({required this.uid, required this.index});
-
   final int index;
+
+  const NavPage({super.key, required this.uid, required this.index});
 
   @override
   // ignore: no_logic_in_create_state
@@ -33,7 +29,8 @@ class _NavPageState extends State<NavPage> {
   int currentPageIndex;
   bool _isFabButtonToggle = false;
 
-  String _userName = '';  
+  String _userName = '';
+  String _userProfile = '';
 
   void getUserData() async {
     // Retrieve user data from Firebase using the UID
@@ -46,6 +43,7 @@ class _NavPageState extends State<NavPage> {
     if (snapshot.exists) {
       setState(() {
         _userName = (snapshot.data() as Map<String, dynamic>)['name'];
+        _userProfile = (snapshot.data() as Map<String, dynamic>)['photoUrl'];
       });
     }
   }
@@ -56,19 +54,12 @@ class _NavPageState extends State<NavPage> {
     getUserData();
   }
 
-  void signUserOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: myAppBar(
-          _userName,
-          currentPageIndex,
-          context),
+      appBar: myAppBar(_userName, _userProfile, currentPageIndex, context),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -91,35 +82,46 @@ class _NavPageState extends State<NavPage> {
     ];
   }
 
-  Padding getFabButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: SizedBox(
-        width: 70,
-        height: 70,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _isFabButtonToggle = !_isFabButtonToggle;
-              });
-            },
-            elevation: 0,
-            backgroundColor: const Color(0xFF59B292),
-            child: _isFabButtonToggle
-                ? const Iconify(
-                    Fa.close,
-                    size: 24,
-                    color: Color(0xffF2FFE9),
-                  )
-                : const Iconify(
-                    Fa.plus,
-                    size: 24,
-                    color: Color(0xffF2FFE9),
-                  ),
+  Stack getFabButton() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        if (_isFabButtonToggle)
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+        Positioned(
+          bottom: 20.0,
+          child: SizedBox(
+            width: 70,
+            height: 70,
+            child: FittedBox(
+              child: FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _isFabButtonToggle = !_isFabButtonToggle;
+                  });
+                },
+                elevation: 0,
+                backgroundColor: const Color(0xFF59B292),
+                child: _isFabButtonToggle
+                    ? const Iconify(
+                        Fa.close,
+                        size: 24,
+                        color: Color(0xffF2FFE9),
+                      )
+                    : const Iconify(
+                        Fa.plus,
+                        size: 24,
+                        color: Color(0xffF2FFE9),
+                      ),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
 }
 

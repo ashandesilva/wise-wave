@@ -1,18 +1,11 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wisewave/screens/user_profile_screen.dart';
-import 'package:wisewave/screens/userprofile.dart';
 
-AppBar myAppBar(String name, int currentPageIndex, BuildContext context) {
+AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
+    BuildContext context) {
   //retrive uid from auth service page
-  final user = FirebaseAuth.instance.currentUser;
-  String? uid = user?.uid;
-
   String defaultProfilePic = "assets/images/default-profile-pic.png";
-  const String userProfilePic = "assets/images/profile-pic-sample.png";
 
   return AppBar(
     systemOverlayStyle: const SystemUiOverlayStyle(
@@ -23,39 +16,25 @@ AppBar myAppBar(String name, int currentPageIndex, BuildContext context) {
     automaticallyImplyLeading: false,
     titleSpacing: 20,
     elevation: 0,
-    title: StreamBuilder<DocumentSnapshot>(
-stream: FirebaseFirestore.instance
-    .collection('users')
-    .doc(uid)
-    .snapshots(),
-builder: (context, snapshot) {
-  if (snapshot.connectionState == ConnectionState.waiting) {
-    return CircularProgressIndicator();
-  } else if (!snapshot.hasData || snapshot.data!.data() == null) {
-    // Handle case where data is not available
-    return Text("No Data");
-  }
-
-  
-
-  return currentPageIndex == 0
-      ? RichText(
-          text: TextSpan(
-            // text: "Hi ${snapshot.data!['name']} ",
-            style: const TextStyle(
-              color: Color(0xFF373737),
-              fontSize: 30,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: "Hi ${snapshot.data!['name']} ",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+    title: currentPageIndex == 0
+        ? RichText(
+            text: TextSpan(
+              text: "Hi ",
+              style: const TextStyle(
+                color: Color(0xFF373737),
+                fontSize: 30,
               ),
-            ],
-          ),
-        )
+              children: <TextSpan>[
+                TextSpan(
+                  // change the old one to reduce the crud operations. and pass the value from the nav_page.dart whick is return from crud.
+                  text: "${name.toString().split(" ")[0]}!",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          )
         : currentPageIndex == 1
             ? Text(
                 "Check-Ins",
@@ -69,27 +48,29 @@ builder: (context, snapshot) {
                 : Text(
                     "Analytics",
                     style: _altTitleStyle(),
-                );
-},
-    ),
+                  ),
     actions: <Widget>[
       GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return UserProfileScreen();
-            //create new user profile to check firestore dynamic data, remove the old one
-            // return UserProfile();
+            return UserProfileScreen(
+              userName: name,
+              userProfilePic: userProfilePic,
+            );
           }));
         },
         child: CircleAvatar(
           radius: 23,
           backgroundColor: const Color(0xFF474747),
-          child: CircleAvatar(
-            radius: 18,
-            backgroundImage: userProfilePic != ""
-                ? AssetImage(userProfilePic)
-                : AssetImage(defaultProfilePic),
-          ),
+          child: userProfilePic != ""
+              ? CircleAvatar(
+                  radius: 18,
+                  backgroundImage: NetworkImage(userProfilePic),
+                )
+              : CircleAvatar(
+                  radius: 18,
+                  backgroundImage: AssetImage(defaultProfilePic),
+                ),
         ),
       ),
       const SizedBox(width: 20),
@@ -100,9 +81,6 @@ builder: (context, snapshot) {
     ),
   );
 }
-    
-  
-
 
 TextStyle _altTitleStyle() {
   return const TextStyle(

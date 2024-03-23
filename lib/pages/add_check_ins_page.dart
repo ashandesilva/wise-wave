@@ -526,6 +526,10 @@ class TitleTextfieldScreen extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         automaticallyImplyLeading: false,
         title: const Text(
           "Check-In Title",
@@ -604,6 +608,10 @@ class AddNotesTextfieldScreen extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         automaticallyImplyLeading: false,
         title: const Text(
           "Notes",
