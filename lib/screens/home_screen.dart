@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   
   //retrive uid from auth service page
   final String uid;
-  HomeScreen({required this.uid});
+  const HomeScreen({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );

@@ -5,6 +5,8 @@ import 'package:wisewave/components/theme/nav_bg_gradient.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/bxs.dart';
+import 'package:wisewave/pages/add_check_ins_page.dart';
+import 'package:wisewave/pages/daily_challange.dart';
 import 'package:wisewave/screens/chat_screen.dart';
 import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
@@ -90,6 +92,110 @@ class _NavPageState extends State<NavPage> {
             color: Colors.black.withOpacity(0.5),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
+          ),
+        if (_isFabButtonToggle)
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              
+              Positioned(
+                bottom: 75.0,
+                child: Container(
+                  height: 180,
+                  width: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 141, 221, 181),
+                        Color(0xFF59B292),
+                      ],
+                      stops: [0, 1],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      FilledButton(
+                        style: const ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.transparent),
+                        ),
+                        child: const Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              'Mood Check-In',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Iconify(
+                              Bx.happy,
+                              color: Color(0xffffffff),
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          await Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const AddCheckInPage();
+                          }));
+
+                          setState(() {
+                            _isFabButtonToggle = !_isFabButtonToggle;
+                          });
+                        },
+                      ),
+                      FilledButton(
+                        style: const ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.transparent),
+                        ),
+                        child: const Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              'Daily Challenge',
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Iconify(
+                              Bx.flag,
+                              color: Color(0xffffffff),
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          await Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const DailyChallange();
+                          }));
+
+                          setState(() {
+                            _isFabButtonToggle = !_isFabButtonToggle;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         Positioned(
           bottom: 20.0,
