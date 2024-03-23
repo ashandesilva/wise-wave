@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -38,7 +39,10 @@ enum FeelingFillter {
 }
 
 class AddCheckInPage extends StatefulWidget {
-  const AddCheckInPage({super.key});
+  
+  //retrive uid from HomeScreen page
+  final String uid;
+  const AddCheckInPage(this.uid);
 
   @override
   State<AddCheckInPage> createState() => _AddCheckInPageState();
@@ -110,6 +114,8 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                         _leadingIcon = _getLeadingBackIcon();
                       } else {
                         Navigator.pop(context);
+                        // _saveCheckInData: function to save check-in data to Firestore
+                        _saveCheckInData();
                       }
                     });
                   }
@@ -479,6 +485,29 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
         ),
       ],
     );
+  }
+
+  void _saveCheckInData() async {
+    // Prepare data for Firestore
+    Map<String, dynamic> checkInData = {
+      'activities': activityFilters.map((activity) => activity.toString()).toList(),
+      'feelings': feelingFillters.map((feeling) => feeling.toString()).toList(),
+      'mood': _emotionsList[_currentSliderPosition],
+      'title': _titleTextFieldController.text,
+      'notes': _addNotesTextFieldController.text,
+      'timestamp': DateTime.now(),
+      'userId': widget.uid,
+    };
+
+    // Add data to Firestore
+    try {
+      await FirebaseFirestore.instance.collection('check_ins').add(checkInData);
+      // Data added successfully, you can navigate to another screen or show a success message
+    } catch (e) {
+      // Error occurred while adding data to Firestore, handle the error
+      print('Error adding check-in: $e');
+      // Show an error message or retry logic
+    }
   }
 }
 

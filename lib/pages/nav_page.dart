@@ -82,7 +82,8 @@ class _NavPageState extends State<NavPage> {
       // pass current user id to the Home screen
       HomeScreen(uid: widget.uid),
       // checkIns screen content.
-      const CheckInScreen(),
+      // pass current user id to the CheckIn screen
+      CheckInScreen(uid : widget.uid),
       // Chat screen content.
       const ChatScreen(),
       // User profile screen content.
@@ -120,7 +121,7 @@ class _NavPageState extends State<NavPage> {
         ),
       ),
     );
-  }
+}
 
   Container getBottomNavBar() {
     return Container(

@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
-                        _getCheckInsCard(context),
+                        _getCheckInsCard(context, uid),
                         _getQuoteCard(username),
                         _getDailyChallangeCard(context),
                       ],
@@ -52,11 +52,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  GestureDetector _getCheckInsCard(BuildContext context) {
+  GestureDetector _getCheckInsCard(BuildContext context, uid) {
     return GestureDetector(
       onTap: () async {
         await Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const AddCheckInPage();
+          return new AddCheckInPage(uid);
         }));
       },
       child: Card(
