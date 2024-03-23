@@ -10,17 +10,14 @@ import 'package:wisewave/screens/chat_screen.dart';
 import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
 import 'package:wisewave/screens/analytics_screen.dart';
-import 'package:wisewave/screens/user_profile_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 
 class NavPage extends StatefulWidget {
-  // const NavPage({super.key, required this.index});
-
   //retrive uid from auth service page
   final String uid;
-  NavPage({required this.uid, required this.index});
-
   final int index;
+
+  const NavPage({super.key, required this.uid, required this.index});
 
   @override
   // ignore: no_logic_in_create_state
@@ -33,7 +30,7 @@ class _NavPageState extends State<NavPage> {
   int currentPageIndex;
   bool _isFabButtonToggle = false;
 
-  String _userName = '';  
+  String _userName = '';
 
   void getUserData() async {
     // Retrieve user data from Firebase using the UID
@@ -65,10 +62,7 @@ class _NavPageState extends State<NavPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: myAppBar(
-          _userName,
-          currentPageIndex,
-          context),
+      appBar: myAppBar(_userName, currentPageIndex, context),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

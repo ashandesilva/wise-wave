@@ -9,9 +9,10 @@ import 'package:wisewave/screens/userprofile.dart';
 
 // ignore: must_be_immutable
 class UserProfileScreen extends StatefulWidget {
-  UserProfileScreen({Key? key}) : super(key: key);
+  const UserProfileScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
@@ -67,7 +68,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               // name text
               Center(
                 child: Text(
-                  userName ?? '',
+                  userName,
                   style: const TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wisewave/screens/user_profile_screen.dart';
-import 'package:wisewave/screens/userprofile.dart';
 
 AppBar myAppBar(String name, int currentPageIndex, BuildContext context) {
   //retrive uid from auth service page
@@ -24,59 +23,56 @@ AppBar myAppBar(String name, int currentPageIndex, BuildContext context) {
     titleSpacing: 20,
     elevation: 0,
     title: StreamBuilder<DocumentSnapshot>(
-stream: FirebaseFirestore.instance
-    .collection('users')
-    .doc(uid)
-    .snapshots(),
-builder: (context, snapshot) {
-  if (snapshot.connectionState == ConnectionState.waiting) {
-    return CircularProgressIndicator();
-  } else if (!snapshot.hasData || snapshot.data!.data() == null) {
-    // Handle case where data is not available
-    return Text("No Data");
-  }
+      stream:
+          FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (!snapshot.hasData || snapshot.data!.data() == null) {
+          // Handle case where data is not available
+          return const Text("No Data");
+        }
 
-  
-
-  return currentPageIndex == 0
-      ? RichText(
-          text: TextSpan(
-            // text: "Hi ${snapshot.data!['name']} ",
-            style: const TextStyle(
-              color: Color(0xFF373737),
-              fontSize: 30,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: "Hi ${snapshot.data!['name']} ",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+        return currentPageIndex == 0
+            ? RichText(
+                text: TextSpan(
+                  text: "Hi ",
+                  style: const TextStyle(
+                    color: Color(0xFF373737),
+                    fontSize: 30,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text:
+                          "${snapshot.data!['name'].toString().split(" ")[0]}!",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        )
-        : currentPageIndex == 1
-            ? Text(
-                "Check-Ins",
-                style: _altTitleStyle(),
               )
-            : currentPageIndex == 2
+            : currentPageIndex == 1
                 ? Text(
-                    "AI Assistant",
+                    "Check-Ins",
                     style: _altTitleStyle(),
                   )
-                : Text(
-                    "Analytics",
-                    style: _altTitleStyle(),
-                );
-},
+                : currentPageIndex == 2
+                    ? Text(
+                        "AI Assistant",
+                        style: _altTitleStyle(),
+                      )
+                    : Text(
+                        "Analytics",
+                        style: _altTitleStyle(),
+                      );
+      },
     ),
     actions: <Widget>[
       GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return UserProfileScreen();
+            return const UserProfileScreen();
             //create new user profile to check firestore dynamic data, remove the old one
             // return UserProfile();
           }));
@@ -87,7 +83,7 @@ builder: (context, snapshot) {
           child: CircleAvatar(
             radius: 18,
             backgroundImage: userProfilePic != ""
-                ? AssetImage(userProfilePic)
+                ? const AssetImage(userProfilePic)
                 : AssetImage(defaultProfilePic),
           ),
         ),
@@ -100,9 +96,6 @@ builder: (context, snapshot) {
     ),
   );
 }
-    
-  
-
 
 TextStyle _altTitleStyle() {
   return const TextStyle(

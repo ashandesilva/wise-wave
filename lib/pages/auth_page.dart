@@ -5,14 +5,15 @@ import 'package:wisewave/pages/nav_page.dart';
 
 //import 'package:wise_wave/screens/login_screen.dart';
 //import 'package:wise_wave/screens/login_screen.dart';
+// ignore: must_be_immutable
 class AuthPage extends StatelessWidget {
-
-  
   // const AuthPage({super.key});
- 
+
   final User? user = FirebaseAuth.instance.currentUser;
   String? uid;
-  
+
+  AuthPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,10 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             //pass current user id to the nav page
-            return NavPage(uid: user!.uid, index: 0,);
+            return NavPage(
+              uid: user!.uid,
+              index: 0,
+            );
           } else {
             //return const SignupPage();
             return const LoginOrSignupPage();
@@ -30,6 +34,4 @@ class AuthPage extends StatelessWidget {
       ),
     );
   }
-
-  
 }
