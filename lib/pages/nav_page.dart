@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/my_app_bar.dart';
 import 'package:wisewave/components/theme/nav_bg_gradient.dart';
@@ -31,6 +30,7 @@ class _NavPageState extends State<NavPage> {
   bool _isFabButtonToggle = false;
 
   String _userName = '';
+  String _userProfile = '';
 
   void getUserData() async {
     // Retrieve user data from Firebase using the UID
@@ -43,6 +43,7 @@ class _NavPageState extends State<NavPage> {
     if (snapshot.exists) {
       setState(() {
         _userName = (snapshot.data() as Map<String, dynamic>)['name'];
+        _userProfile = (snapshot.data() as Map<String, dynamic>)['photoUrl'];
       });
     }
   }
@@ -53,16 +54,12 @@ class _NavPageState extends State<NavPage> {
     getUserData();
   }
 
-  void signUserOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: myAppBar(_userName, currentPageIndex, context),
+      appBar: myAppBar(_userName, _userProfile, currentPageIndex, context),
       body: getNavScreenBody[currentPageIndex],
       floatingActionButton: getFabButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
