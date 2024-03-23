@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wisewave/components/theme/main_bg_gradient.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:wisewave/screens/check_in_details.dart';
 
 class CheckInScreen extends StatelessWidget {
   
   //passed uid from nav_page.dart
   final String uid;
-  CheckInScreen({required this.uid});
+  const CheckInScreen({super.key, required this.uid});
 
   Future<void> refreshHandler() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -72,7 +70,7 @@ class CheckInScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.data!.docs.isEmpty) {

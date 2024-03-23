@@ -24,7 +24,6 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final String _userProfilePic = "assets/images/profile-pic-sample.png";
-  String get userProfilePic => _userProfilePic;
 
   void signUserOut() async {
     await FirebaseAuth.instance.signOut();

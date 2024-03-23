@@ -5,7 +5,7 @@ BoxDecoration setNavBgGradient() {
     gradient: LinearGradient(
       colors: [
         Color.fromARGB(255, 242, 195, 178),
-        Color.fromARGB(255, 229, 168, 182)
+        Color(0xFFE5A8B6)
       ],
       stops: [0, 1],
       begin: Alignment.topCenter,

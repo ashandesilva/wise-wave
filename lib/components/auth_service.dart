@@ -5,7 +5,7 @@ import 'package:wisewave/screens/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   //signin with email and password and user details to firestore
   Future<UserCredential?> signInWithGoogle(BuildContext context) async {
