@@ -6,7 +6,9 @@ import 'package:wisewave/pages/add_check_ins_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddWorkPage extends StatefulWidget {
-  const AddWorkPage({super.key});
+  //retrive uid from HomeScreen page
+  final String uid;
+  const AddWorkPage({required this.uid, super.key});
 
   @override
   State<AddWorkPage> createState() => _AddWorkPageState();

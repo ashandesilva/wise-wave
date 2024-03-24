@@ -4,7 +4,11 @@ import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/pages/add_work_page.dart';
 
 class WorkLoadScreen extends StatelessWidget {
-  const WorkLoadScreen({super.key});
+  
+
+  //retrive uid from HomeScreen page
+  final String uid;
+  const WorkLoadScreen({required this.uid, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +112,7 @@ class WorkLoadScreen extends StatelessWidget {
           FilledButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddWorkPage()));
+                  MaterialPageRoute(builder: (context) => AddWorkPage(uid: uid)));
             },
             style: const ButtonStyle(
               fixedSize: MaterialStatePropertyAll(Size(250, 60)),
