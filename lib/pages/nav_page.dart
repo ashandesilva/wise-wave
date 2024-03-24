@@ -7,6 +7,7 @@ import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:wisewave/pages/add_check_ins_page.dart';
 import 'package:wisewave/pages/daily_challange.dart';
+import 'package:wisewave/pages/say_thanks.dart';
 import 'package:wisewave/screens/chat_screen.dart';
 import 'package:wisewave/screens/check_in_screen.dart';
 import 'package:wisewave/screens/home_screen.dart';
@@ -102,8 +103,8 @@ class _NavPageState extends State<NavPage> {
               Positioned(
                 bottom: 80.0,
                 child: Container(
-                  height: 210,
-                  width: 250,
+                  height: 280,
+                  width: 280,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     gradient: const LinearGradient(
@@ -224,6 +225,43 @@ class _NavPageState extends State<NavPage> {
                           await Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return WorkLoadScreen(uid: widget.uid);
+                          }));
+
+                          setState(() {
+                            _isFabButtonToggle = !_isFabButtonToggle;
+                          });
+                        },
+                      ),
+                      FilledButton(
+                        style: const ButtonStyle(
+                          splashFactory: NoSplash.splashFactory,
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.transparent),
+                        ),
+                        child: const Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Text(
+                              'Say Thanks',
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Iconify(
+                              Bx.briefcase,
+                              color: Color(0xffffffff),
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          await Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return SayThanksPage(uid: widget.uid);
                           }));
 
                           setState(() {
