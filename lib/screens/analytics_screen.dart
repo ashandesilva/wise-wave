@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class AnalyticsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 10),
+                                padding: EdgeInsets.only(right: 8),
                                 child: Transform.rotate(
                                   angle: 3.14159, // Rotate by 180 degrees (pi radians)
                                   child: Image(
@@ -76,7 +75,7 @@ class AnalyticsScreen extends StatelessWidget {
                                 ],
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.only(left: 8),
                                 child: Image(
                                   image: AssetImage("assets/images/fa_quote-left.png"),
                                 ),
