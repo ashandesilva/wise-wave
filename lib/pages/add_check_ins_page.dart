@@ -39,7 +39,6 @@ enum FeelingFillter {
 }
 
 class AddCheckInPage extends StatefulWidget {
-  
   //retrive uid from HomeScreen page
   final String uid;
   const AddCheckInPage({required this.uid, super.key});
@@ -490,7 +489,8 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
   void _saveCheckInData() async {
     // Prepare data for Firestore
     Map<String, dynamic> checkInData = {
-      'activities': activityFilters.map((activity) => activity.toString()).toList(),
+      'activities':
+          activityFilters.map((activity) => activity.toString()).toList(),
       'feelings': feelingFillters.map((feeling) => feeling.toString()).toList(),
       'mood': _emotionsList[_currentSliderPosition],
       'title': _titleTextFieldController.text,

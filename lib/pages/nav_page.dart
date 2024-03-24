@@ -46,7 +46,8 @@ class _NavPageState extends State<NavPage> {
     if (snapshot.exists) {
       setState(() {
         _userName = (snapshot.data() as Map<String, dynamic>)['name'] ?? '';
-        _userProfile = (snapshot.data() as Map<String, dynamic>)['photoUrl'] ?? '';
+        _userProfile =
+            (snapshot.data() as Map<String, dynamic>)['photoUrl'] ?? '';
       });
     }
   }
@@ -79,7 +80,7 @@ class _NavPageState extends State<NavPage> {
       // pass current user id to the CheckIn screen
       CheckInScreen(uid: widget.uid),
       // Chat screen content.
-      ChatScreen(),
+      ChatScreen(username: _userName),
       // User profile screen content.
       AnalyticsScreen(),
     ];
@@ -108,8 +109,8 @@ class _NavPageState extends State<NavPage> {
                     borderRadius: BorderRadius.circular(30),
                     gradient: const LinearGradient(
                       colors: [
-                        Color.fromARGB(255, 141, 221, 181),
-                        Color(0xFF59B292),
+                        Color(0xFF39B29C),
+                        Color(0xFF39B29C),
                       ],
                       stops: [0, 1],
                       begin: Alignment.topCenter,
@@ -123,11 +124,12 @@ class _NavPageState extends State<NavPage> {
                       FilledButton(
                         style: const ButtonStyle(
                           splashFactory: NoSplash.splashFactory,
-                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(15)),
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.transparent),
                         ),
                         child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(width: 10),
                             Text(
@@ -137,12 +139,6 @@ class _NavPageState extends State<NavPage> {
                                 color: Color(0xFFFFFFFF),
                                 fontSize: 20,
                               ),
-                            ),
-                            SizedBox(width: 20),
-                            Iconify(
-                              Bx.happy,
-                              color: Color(0xffffffff),
-                              size: 30,
                             ),
                           ],
                         ),
@@ -160,13 +156,13 @@ class _NavPageState extends State<NavPage> {
                       FilledButton(
                         style: const ButtonStyle(
                           splashFactory: NoSplash.splashFactory,
-                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(15)),
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.transparent),
                         ),
                         child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: 10),
                             Text(
                               'Daily Challenge',
                               style: TextStyle(
@@ -174,12 +170,6 @@ class _NavPageState extends State<NavPage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
-                            ),
-                            SizedBox(width: 20),
-                            Iconify(
-                              Bx.flag,
-                              color: Color(0xffffffff),
-                              size: 30,
                             ),
                           ],
                         ),
@@ -197,13 +187,13 @@ class _NavPageState extends State<NavPage> {
                       FilledButton(
                         style: const ButtonStyle(
                           splashFactory: NoSplash.splashFactory,
-                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
+                          padding: MaterialStatePropertyAll(EdgeInsets.all(15)),
                           backgroundColor:
                               MaterialStatePropertyAll(Colors.transparent),
                         ),
                         child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: 10),
                             Text(
                               'Workload',
                               style: TextStyle(
@@ -211,12 +201,6 @@ class _NavPageState extends State<NavPage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
-                            ),
-                            SizedBox(width: 20),
-                            Iconify(
-                              Bx.briefcase,
-                              color: Color(0xffffffff),
-                              size: 30,
                             ),
                           ],
                         ),
@@ -250,7 +234,7 @@ class _NavPageState extends State<NavPage> {
                   });
                 },
                 elevation: 0,
-                backgroundColor: const Color(0xFF59B292),
+                backgroundColor: const Color(0xFF39B29C),
                 child: _isFabButtonToggle
                     ? const Iconify(
                         Fa.close,
@@ -305,11 +289,11 @@ class _NavPageState extends State<NavPage> {
       selectedIcon: Badge(
         alignment: Alignment(0, -7.8),
         smallSize: 19,
-        backgroundColor: Color(0xFF53A688),
+        backgroundColor: Color(0xFF39B29C),
         child: Iconify(
           Bxs.analyse,
           size: 30,
-          color: Color(0xFF53A688),
+          color: Color(0xFF39B29C),
         ),
       ),
       icon: Iconify(
@@ -329,11 +313,11 @@ class _NavPageState extends State<NavPage> {
         selectedIcon: Badge(
           alignment: Alignment(0, -7.8),
           smallSize: 19,
-          backgroundColor: Color(0xFF53A688),
+          backgroundColor: Color(0xFF39B29C),
           child: Iconify(
             Bxs.message,
             size: 30,
-            color: Color(0xFF53A688),
+            color: Color(0xFF39B29C),
           ),
         ),
         icon: Iconify(
@@ -354,11 +338,11 @@ class _NavPageState extends State<NavPage> {
         selectedIcon: Badge(
           alignment: Alignment(0, -7.8),
           smallSize: 19,
-          backgroundColor: Color(0xFF53A688),
+          backgroundColor: Color(0xFF39B29C),
           child: Iconify(
             Bxs.bookmark,
             size: 30,
-            color: Color(0xFF53A688),
+            color: Color(0xFF39B29C),
           ),
         ),
         icon: Iconify(
@@ -377,10 +361,10 @@ class _NavPageState extends State<NavPage> {
       selectedIcon: Badge(
         alignment: Alignment(0, -7.8),
         smallSize: 19,
-        backgroundColor: Color(0xFF53A688),
+        backgroundColor: Color(0xFF39B29C),
         child: Iconify(
           Bxs.home_alt_2,
-          color: Color(0xFF53A688),
+          color: Color(0xFF39B29C),
           size: 30,
         ),
       ),
