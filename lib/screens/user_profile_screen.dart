@@ -5,6 +5,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/screens/userprofile.dart';
+import 'settings_screen.dart';
 
 // ignore: must_be_immutable
 class UserProfileScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final String _userProfilePic = "assets/images/profile-pic-sample.png";
 
   void signUserOut() async {
-    await FirebaseAuth.instance.signOut();
+   await FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -55,15 +56,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               const SizedBox(height: 20.0),
               accountDetailsListTile(),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               settingsListTile(),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               logoutListTile(context),
+              const Spacer(),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'App Version 1.0.0, \n© 2024 WiseWave. All rights reserved.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
             ],
-          ),
-        ),
-      ),
-    );
+          ),          
+        ),       
+      ),      
+    );    
   }
 
   AppBar _myAppBar(BuildContext context) {
@@ -200,7 +216,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             color: Color(0xFF373737),
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SettingsScreen()),
+          );
+        },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),
         splashColor: const Color(0xFFFFFFFF),
@@ -239,8 +260,31 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ),
         onTap: () async {
-          signUserOut();
-          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Sign Out'),
+                content: Text('Are you sure you want to sign out?'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Sign Out'),
+                    onPressed: () async {
+                      signUserOut();
+                      Navigator.of(context).pop();
+                      Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         tileColor: const Color(0xFFE3F4F7),

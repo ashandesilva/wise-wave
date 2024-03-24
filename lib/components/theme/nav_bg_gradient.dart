@@ -12,8 +12,8 @@ BoxDecoration setNavBgGradient() {
       end: Alignment.bottomCenter,
     ),
     borderRadius: BorderRadius.only(
-      topRight: Radius.circular(30),
-      topLeft: Radius.circular(30),
+      topRight: Radius.circular(10),
+      topLeft: Radius.circular(10),
     ),
   );
 }

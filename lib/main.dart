@@ -12,6 +12,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+// code from neja_dev brnch should be added here for theme changing 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
