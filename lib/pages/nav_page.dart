@@ -14,6 +14,8 @@ import 'package:wisewave/screens/analytics_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 import 'package:wisewave/screens/work_load_screen.dart';
 
+import '../screens/chat_welcome_screen.dart';
+
 class NavPage extends StatefulWidget {
   //retrive uid from auth service page
   final String uid;
@@ -79,7 +81,7 @@ class _NavPageState extends State<NavPage> {
       // pass current user id to the CheckIn screen
       CheckInScreen(uid: widget.uid),
       // Chat screen content.
-      ChatScreen(),
+      ChatWelcomeScreen(),
       // User profile screen content.
       AnalyticsScreen(),
     ];
@@ -393,3 +395,6 @@ class _NavPageState extends State<NavPage> {
     );
   }
 }
+
+
+ 
