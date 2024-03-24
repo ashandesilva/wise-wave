@@ -20,37 +20,88 @@ class CheckInDetails extends StatelessWidget {
             children: [
               AppBar(
                 title: const Text('Journal Details'),
+                titleTextStyle: const TextStyle(color: Colors.black, fontSize: 26),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(18.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Title: ${document['title']}',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Feelings: ${document['feelings'].join(', ')}',
-                      style: const TextStyle(fontSize: 16),
+                    const SizedBox(height: 25),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(fontSize: 20, color: Colors.black),
+                        children: [
+                          const TextSpan(
+                            text: 'Feelings: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          ...document['feelings'].map((feeling) {
+                            return TextSpan(
+                              text: '${feeling.toString().split('.')[1]}, ',
+                            );
+                          }).toList(),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Activities: ${document['activities'].join(', ')}',
-                      style:const TextStyle(fontSize: 16),
+                    const SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(fontSize: 20, color: Colors.black),
+                        children: [
+                          const TextSpan(
+                            text: 'Activities: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          ...document['activities'].map((activities) {
+                            return TextSpan(
+                              text: '${activities.toString().split('.')[1]}, ',
+                            );
+                          }).toList(),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Mood: ${document['mood']}',
-                      style:const TextStyle(fontSize: 16),
+                    const SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Mood: ',
+                          style: TextStyle(fontSize: 20, fontWeight:
+                          FontWeight.bold,
+                          color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: '${document['mood']}',
+                          style: const TextStyle(fontSize: 20,
+                          color: Colors.black),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Notes: ${document['notes']}',
-                      style:const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Notes: ',
+                          style: TextStyle(fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: '${document['notes']}',
+                          style: const TextStyle(fontSize: 20,
+                          color: Colors.black),
+                        ),
+                      ],
+                    ),
                     ),
                   ],
                 ),
