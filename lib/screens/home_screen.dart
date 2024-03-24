@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const WorkLoadScreen();
+                  return WorkLoadScreen(uid: uid);
                 },
               ),
             );

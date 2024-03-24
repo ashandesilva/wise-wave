@@ -223,7 +223,7 @@ class _NavPageState extends State<NavPage> {
                         onPressed: () async {
                           await Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const WorkLoadScreen();
+                            return WorkLoadScreen(uid: widget.uid);
                           }));
 
                           setState(() {

@@ -1,10 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/pages/add_work_page.dart';
+import 'package:intl/intl.dart';
 
 class WorkLoadScreen extends StatelessWidget {
-  const WorkLoadScreen({super.key});
+  
+
+  //retrive uid from HomeScreen page
+  final String uid;
+  const WorkLoadScreen({required this.uid, super.key});
+
+  Future<void> refreshHandler() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,23 +23,55 @@ class WorkLoadScreen extends StatelessWidget {
       appBar: _myAppBar(context),
       floatingActionButton: _bottomButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Container(
-        decoration: setMainBgGradient(),
-        child: ListView(
-          children: [
-            const SizedBox(height: 25),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  height: 100,
-                  color: const Color(0xFFE3F4F7),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('works')
+            .where('userId', isEqualTo: uid)
+            .orderBy('timestamp', descending: true)
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text('No Workloads found.'),
+            );
+          } else {
+            return LiquidPullToRefresh(
+              onRefresh: refreshHandler,
+              color: const Color.fromARGB(255, 184, 215, 229),
+              height: 150,
+              backgroundColor: const Color.fromARGB(255, 130, 196, 226),
+              animSpeedFactor: 3,
+              showChildOpacityTransition: false,
+              child: Container(
+                decoration: setMainBgGradient(),
+                child: ListView(
+                    children: [
+                      Column(
+                        children: snapshot.data!.docs.map((document) {
+                          return CheckInTile(
+                            document: document,
+                            onPressed: () 
+                            {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => CheckInDetails(document: document),
+                            //     ),
+                            //   );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                  ]
                 ),
               ),
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }
@@ -108,7 +151,7 @@ class WorkLoadScreen extends StatelessWidget {
           FilledButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const AddWorkPage()));
+                  MaterialPageRoute(builder: (context) => AddWorkPage(uid: uid)));
             },
             style: const ButtonStyle(
               fixedSize: MaterialStatePropertyAll(Size(250, 60)),
@@ -130,6 +173,63 @@ class WorkLoadScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CheckInTile extends StatelessWidget {
+  final QueryDocumentSnapshot<Object?> document;
+  final VoidCallback onPressed;
+
+  CheckInTile({required this.document, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          color: const Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  document['title'],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+                    ),
+                subtitle: Text(document['details']),
+                onTap: onPressed,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Wrap(
+                    spacing: 4.0,
+                    alignment: WrapAlignment.start,
+                    children: <Widget>[
+                      Chip(
+                        label: Text(DateFormat.yMMMMd('en_US').format(DateTime.parse(document['date']))),
+                        backgroundColor: const Color.fromARGB(255, 198, 238, 245),
+                        side: BorderSide.none,
+                        labelStyle: const TextStyle(fontSize: 15),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
