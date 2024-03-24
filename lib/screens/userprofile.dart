@@ -5,7 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../components/theme/nav_bg_gradient.dart';
 
 class UserProfile extends StatefulWidget {
+  const UserProfile({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _UserProfileState createState() => _UserProfileState();
   
 }
@@ -185,8 +188,8 @@ class DonutChartPainter extends CustomPainter {
     ];
 
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
+    // final center = Offset(size.width / 2, size.height / 2);
+    // final radius = size.width / 2;
 
     double startAngle = 0;
 

@@ -31,9 +31,9 @@ class _AddWorkPageState extends State<AddWorkPage> {
   final TextEditingController _addDetailsTextFieldController =
       TextEditingController();
 
-  bool _isBottomButtonPressed = false;
-  Widget  _leadingIcon = const SizedBox(); // Change the type to Widget and initialize it with a default widget
-  
+  // bool _isBottomButtonPressed = false;
+  // Widget  _leadingIcon = const SizedBox(); // Change the type to Widget and initialize it with a default widget
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,23 +235,23 @@ class _AddWorkPageState extends State<AddWorkPage> {
           FilledButton(
             onPressed: () {
               setState(() {
-              // Check if title, details, and date are not empty before adding to Firebase
-              if (_titleTextFieldController.text.isNotEmpty &&
-                  _addDetailsTextFieldController.text.isNotEmpty &&
-                  _selectDay != null) {
-                // Call method to add data to Firebase
-                _addToFirebase();
-                // Navigate away only when data is successfully added
-                Navigator.pop(context);
-              } else {
-                // Handle case where any of the required fields are empty
-                print('Title, details, or date is empty');
-                // Show a Snackbar to the user
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please fill in all fields.')),
-                );
-              }
-            });
+                // Check if title, details, and date are not empty before adding to Firebase
+                if (_titleTextFieldController.text.isNotEmpty &&
+                    _addDetailsTextFieldController.text.isNotEmpty &&
+                    _selectDay != null) {
+                  // Call method to add data to Firebase
+                  _addToFirebase();
+                  // Navigate away only when data is successfully added
+                  Navigator.pop(context);
+                } else {
+                  // Handle case where any of the required fields are empty
+                  print('Title, details, or date is empty');
+                  // Show a Snackbar to the user
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please fill in all fields.')),
+                  );
+                }
+              });
             },
             style: const ButtonStyle(
               fixedSize: MaterialStatePropertyAll(Size(250, 60)),
@@ -285,7 +285,8 @@ class _AddWorkPageState extends State<AddWorkPage> {
       FirebaseFirestore.instance.collection('works').add({
         'title': title,
         'details': details,
-        'date': _selectDay!.toIso8601String(), // Convert DateTime to ISO 8601 string
+        'date': _selectDay!
+            .toIso8601String(), // Convert DateTime to ISO 8601 string
         'timestamp': DateTime.now(),
         'userId': widget.uid,
       }).then((_) {
@@ -308,8 +309,6 @@ class _AddWorkPageState extends State<AddWorkPage> {
       );
     }
   }
-
-  
 
   AppBar _myAppBar(BuildContext context) {
     return AppBar(

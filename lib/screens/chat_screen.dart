@@ -1,143 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
-import 'package:wisewave/components/theme/nav_bg_gradient.dart';
+import 'package:wisewave/pages/chat_page.dart';
+import 'package:iconify_flutter/icons/ri.dart';
 
-class ChatScreen extends StatefulWidget {
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class Message {
-  final String text;
-  final bool isSentByUser;
-
-  Message({required this.text, required this.isSentByUser});
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _textEditingController = TextEditingController();
-  final List<Message> messages = [];
-  final ScrollController _scrollController = ScrollController();
-
-
-void sendMessage(String text) {
-    final message = Message(text: text, isSentByUser: true);
-    setState(() {
-      messages.add(message);
-      _textEditingController.clear();
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-    });
-    // TODO: Make API call to send message
-  }
-
-  void receiveMessage(String text) {
-    final message = Message(text: text, isSentByUser: false);
-    setState(() {
-      messages.add(message);
-
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-    });
-    // TODO: Make API call to receive message
-  }
-
-
+class ChatScreen extends StatelessWidget {
+  final String username;
+  const ChatScreen({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'AI Assistant',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
-        ),
-        flexibleSpace: Container(
-          decoration: setNavBgGradient(),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  final message = messages[index];
-                  return Align(
-                    alignment: message.isSentByUser ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: message.isSentByUser ? Colors.green[300]!.withOpacity(0.4) : Colors.blue[300]!.withOpacity(0.4),
-                      ),
-                      child: Text(
-                        message.text,
-                        style: const TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                  );
-                },
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 55),
+              const Image(
+                image: AssetImage("assets/images/KAI.png"),
+                width: 250,
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                color: Colors.grey.withOpacity(0.5),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: TextField(
-                        controller: _textEditingController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter your message',
-                        ),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
+              SizedBox(
+                width: 270,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text:
+                            "Hi ${username.toString().split(" ")[0]}\nMeet KAI!",
+                        style: const TextStyle(
+                            fontSize: 32,
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: () {
-                      sendMessage(_textEditingController.text);
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    const Text(
+                      "All your question answer by KAI,\nAsk here please!",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 40),
+              FilledButton(
+                style: const ButtonStyle(
+                    elevation: MaterialStatePropertyAll(10.0),
+                    shadowColor:
+                        MaterialStatePropertyAll(Color.fromARGB(104, 0, 0, 0)),
+                    backgroundColor:
+                        MaterialStatePropertyAll(Color(0xFFE3F4F7)),
+                    fixedSize: MaterialStatePropertyAll(Size(300, 150))),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatPage(),
+                    )),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Iconify(
+                      Ri.send_plane_fill,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      size: 50,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Chat with!\nKAI.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF000000),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-
-
-

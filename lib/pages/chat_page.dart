@@ -1,0 +1,183 @@
+import 'package:flutter/material.dart';
+import 'package:wisewave/components/theme/main_bg_gradient.dart';
+
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ChatPageState createState() => _ChatPageState();
+}
+
+class Message {
+  final String text;
+  final bool isSentByUser;
+
+  Message({required this.text, required this.isSentByUser});
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final List<Message> messages = [];
+  final ScrollController _scrollController = ScrollController();
+
+  void sendMessage(String text) {
+    final message = Message(text: text, isSentByUser: true);
+    setState(() {
+      messages.add(message);
+      _textEditingController.clear();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    });
+    // TODO: Make API call to send message
+  }
+
+  void receiveMessage(String text) {
+    final message = Message(text: text, isSentByUser: false);
+    setState(() {
+      messages.add(message);
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeOut,
+      );
+    });
+    // TODO: Make API call to receive message
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _myChatAppBar(context),
+      body: Container(
+        decoration: setMainBgGradient(),
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+                  return Align(
+                    alignment: message.isSentByUser
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5.0),
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: message.isSentByUser
+                            ? Colors.green[300]!.withOpacity(0.4)
+                            : Colors.blue[300]!.withOpacity(0.4),
+                      ),
+                      child: Text(
+                        message.text,
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.0),
+                color: const Color.fromARGB(255, 99, 114, 109),
+              ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 20.0),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: TextField(
+                        controller: _textEditingController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter your message',
+                          hintStyle: TextStyle(color: Color(0x85D2D2D2)),
+                        ),
+                        cursorColor: const Color(0xffffffff),
+                        style: const TextStyle(color: Colors.white),
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    color: const Color(0xffffffff),
+                    onPressed: () {
+                      sendMessage(_textEditingController.text);
+                    },
+                  ),
+                  const SizedBox(width: 10.0),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  AppBar _myChatAppBar(BuildContext context) {
+    return AppBar(
+      title: const Row(
+        children: [
+          SizedBox(width: 5),
+          CircleAvatar(
+            backgroundColor: Color.fromARGB(124, 0, 45, 129),
+            child: Image(
+              image: AssetImage("assets/images/KAI-face.png"),
+            ),
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+          Text(
+            'KAI',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+          ),
+        ],
+      ),
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(255, 242, 195, 178), Color(0xFFE5A8B6)],
+            stops: [0, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+      automaticallyImplyLeading: false,
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () async {
+            Navigator.pop(context);
+          },
+          child: const Image(
+            width: 45,
+            image: AssetImage("assets/images/close-button.png"),
+          ),
+        ),
+        const SizedBox(width: 20),
+      ],
+      bottom: const PreferredSize(
+        preferredSize: Size(0, 10),
+        child: SizedBox(height: 0),
+      ),
+    );
+  }
+}
