@@ -24,7 +24,9 @@ jobs:
         flutter-version: '3.16.1'
     - run: flutter pub get
     - run: flutter build apk --release
-    uses: actions/upload-artifact@v2
+    name: Upload APK to GitHub Releases
+    uses: ashandesilva/release-action@v1
     with:
-      name: app-release
-      path: build/app/outputs/flutter-apk/app-release.apk
+      artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+      tag: v1.0.${{ github.run_number }}
+      token: ${{ secrets.TOKEN }}
