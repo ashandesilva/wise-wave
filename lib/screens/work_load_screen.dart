@@ -21,25 +21,25 @@ class WorkLoadScreen extends StatelessWidget {
       appBar: _myAppBar(context),
       floatingActionButton: _bottomButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('works')
-            .where('userId', isEqualTo: uid)
-            .orderBy('timestamp', descending: true)
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text('No Workloads found.'),
-            );
-          } else {
-            return Container(
-              decoration: setMainBgGradient(),
-              child: LiquidPullToRefresh(
+      body: Container(
+        decoration: setMainBgGradient(),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('works')
+              .where('userId', isEqualTo: uid)
+              .orderBy('timestamp', descending: true)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.docs.isEmpty) {
+              return const Center(
+                child: Text('No Workloads found.'),
+              );
+            } else {
+              return LiquidPullToRefresh(
                 onRefresh: refreshHandler,
                 color: const Color(0xFFE5A8B6),
                 height: 150,
@@ -64,10 +64,10 @@ class WorkLoadScreen extends StatelessWidget {
                     }).toList(),
                   ),
                 ]),
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -84,7 +84,7 @@ class WorkLoadScreen extends StatelessWidget {
         child: Text(
           "Workload",
           style: TextStyle(
-            color: Color(0xFF373737),
+            color: Color(0xFF000000),
             fontWeight: FontWeight.bold,
             fontSize: 28,
           ),

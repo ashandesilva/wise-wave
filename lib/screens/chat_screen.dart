@@ -13,7 +13,10 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: setMainBgGradient(),
-        child: Center(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               const SizedBox(height: 55),
@@ -44,7 +47,7 @@ class ChatScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 50),
               FilledButton(
                 style: const ButtonStyle(
                     elevation: MaterialStatePropertyAll(10.0),
@@ -52,7 +55,7 @@ class ChatScreen extends StatelessWidget {
                         MaterialStatePropertyAll(Color.fromARGB(104, 0, 0, 0)),
                     backgroundColor:
                         MaterialStatePropertyAll(Color(0xFFE3F4F7)),
-                    fixedSize: MaterialStatePropertyAll(Size(300, 150))),
+                    fixedSize: MaterialStatePropertyAll(Size(300, 90))),
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -71,7 +74,7 @@ class ChatScreen extends StatelessWidget {
                       width: 20,
                     ),
                     Text(
-                      "Chat with!\nKAI.",
+                      "Chat with! KAI.",
                       style: TextStyle(
                           fontSize: 20,
                           color: Color(0xFF000000),
