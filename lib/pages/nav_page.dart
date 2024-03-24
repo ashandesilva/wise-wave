@@ -79,9 +79,9 @@ class _NavPageState extends State<NavPage> {
       // pass current user id to the CheckIn screen
       CheckInScreen(uid: widget.uid),
       // Chat screen content.
-      const ChatScreen(),
+      ChatScreen(),
       // User profile screen content.
-      const AnalyticsScreen(),
+      AnalyticsScreen(),
     ];
   }
 
