@@ -15,8 +15,6 @@ import 'package:wisewave/screens/analytics_screen.dart';
 import 'package:iconify_flutter/icons/fa.dart';
 import 'package:wisewave/screens/work_load_screen.dart';
 
-import '../screens/chat_welcome_screen.dart';
-
 class NavPage extends StatefulWidget {
   //retrive uid from auth service page
   final String uid;
@@ -84,9 +82,8 @@ class _NavPageState extends State<NavPage> {
       CheckInScreen(uid: widget.uid),
       // Chat screen content.
       ChatScreen(username: _userName),
-      ChatWelcomeScreen(),
       // User profile screen content.
-      AnalyticsScreen(),
+      const AnalyticsScreen(),
     ];
   }
 
@@ -107,7 +104,7 @@ class _NavPageState extends State<NavPage> {
               Positioned(
                 bottom: 80.0,
                 child: Container(
-                  height: 280,
+                  height: 240,
                   width: 280,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
@@ -236,43 +233,6 @@ class _NavPageState extends State<NavPage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () async {
-                          await Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return WorkLoadScreen(uid: widget.uid);
-                          }));
-
-                          setState(() {
-                            _isFabButtonToggle = !_isFabButtonToggle;
-                          });
-                        },
-                      ),
-                      FilledButton(
-                        style: const ButtonStyle(
-                          splashFactory: NoSplash.splashFactory,
-                          padding: MaterialStatePropertyAll(EdgeInsets.all(20)),
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.transparent),
-                        ),
-                        child: const Row(
-                          children: [
-                            SizedBox(width: 10),
-                            Text(
-                              'Say Thanks',
-                              style: TextStyle(
-                                color: Color(0xFFFFFFFF),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Iconify(
-                              Bx.briefcase,
-                              color: Color(0xffffffff),
-                              size: 30,
                             ),
                           ],
                         ),
@@ -449,6 +409,3 @@ class _NavPageState extends State<NavPage> {
     );
   }
 }
-
-
- 

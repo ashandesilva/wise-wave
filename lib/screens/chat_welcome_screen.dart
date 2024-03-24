@@ -112,7 +112,7 @@ class ChatWelcomeScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ChatScreen(),
+        builder: (context) => const ChatScreen(username: "naaji"),
       ),
     );
   }

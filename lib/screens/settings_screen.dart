@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wisewave/components/theme/themeProvider.dart';
 import 'package:wisewave/pages/login_or_singup_page.dart';
 
 import '../components/theme/main_bg_gradient.dart';
 import '../components/theme/nav_bg_gradient.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends StatelessWidget {
 
   bool _notificationsOn = false;
+
+  SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
