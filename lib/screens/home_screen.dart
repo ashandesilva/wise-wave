@@ -25,11 +25,11 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             body: Container(
               height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.only(top: 110.0),
+              padding: const EdgeInsets.only(top: 107.0),
               decoration: setMainBgGradient(),
               child: SingleChildScrollView(
                 //to make the scroll view always scrollable
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
