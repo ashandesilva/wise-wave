@@ -68,6 +68,11 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
       TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Container checkInBody =
         !_isBottomButtonPressed ? _moodTrackerBody() : _noteWriterBody();
@@ -111,10 +116,28 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                         _bottmButtonText = "Complete Check-In";
                         _isBottomButtonPressed = true;
                         _leadingIcon = _getLeadingBackIcon();
-                      } else {
+                      } else if (_titleTextFieldController.text != "" &&
+                          activityFilters.isNotEmpty &&
+                          feelingFillters.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Check-In added to the journal!"),
+                            behavior: SnackBarBehavior.fixed,
+                            duration: Duration(milliseconds: 1000),
+                          ),
+                        );
                         Navigator.pop(context);
-                        // _saveCheckInData: function to save check-in data to Firestore
                         _saveCheckInData();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                "Activity, Feeling, and Title are required!"),
+                            behavior: SnackBarBehavior.fixed,
+                            duration: Duration(milliseconds: 1500),
+                          ),
+                        );
+                        null;
                       }
                     });
                   }
@@ -211,7 +234,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                 const SizedBox(
                   width: 340,
                   child: Text(
-                    "how are you feeling about this?",
+                    "How are you feeling about this?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,

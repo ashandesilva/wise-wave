@@ -93,7 +93,7 @@ class _NavPageState extends State<NavPage> {
       children: [
         if (_isFabButtonToggle)
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: const Color.fromARGB(140, 55, 55, 55),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
           ),
@@ -104,8 +104,8 @@ class _NavPageState extends State<NavPage> {
               Positioned(
                 bottom: 80.0,
                 child: Container(
-                  height: 240,
-                  width: 280,
+                  height: 260,
+                  width: 230,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     gradient: const LinearGradient(
@@ -132,7 +132,6 @@ class _NavPageState extends State<NavPage> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: 10),
                             Text(
                               'Mood Check-In',
                               style: TextStyle(
@@ -382,7 +381,7 @@ class _NavPageState extends State<NavPage> {
           size: 30,
           color: Color.fromARGB(255, 71, 39, 50),
         ),
-        label: 'Check-Ins',
+        label: 'Journals',
       ),
     );
   }
