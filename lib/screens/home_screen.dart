@@ -28,6 +28,8 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 110.0),
               decoration: setMainBgGradient(),
               child: SingleChildScrollView(
+                //to make the scroll view always scrollable
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -38,6 +40,7 @@ class HomeScreen extends StatelessWidget {
                         _getDailyChallangeCard(context),
                         const SizedBox(height: 25),
                         _getWorkLoadBtn(context),
+                        const SizedBox(height: 150),
                       ],
                     ),
                   ),
