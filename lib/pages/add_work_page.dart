@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
 import 'package:wisewave/pages/add_check_ins_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddWorkPage extends StatefulWidget {
   const AddWorkPage({super.key});
@@ -22,12 +23,15 @@ class _AddWorkPageState extends State<AddWorkPage> {
     // Initialize _focusedDay to the current date
   }
 
-  final String _bottmButtonText = "Add My Work";
+  String _bottmButtonText = "Add My Work";
   final TextEditingController _titleTextFieldController =
       TextEditingController();
   final TextEditingController _addDetailsTextFieldController =
       TextEditingController();
 
+  bool _isBottomButtonPressed = false;
+  Widget  _leadingIcon = const SizedBox(); // Change the type to Widget and initialize it with a default widget
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -228,8 +232,24 @@ class _AddWorkPageState extends State<AddWorkPage> {
           ),
           FilledButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              setState(() {
+              // Check if title, details, and date are not empty before adding to Firebase
+              if (_titleTextFieldController.text.isNotEmpty &&
+                  _addDetailsTextFieldController.text.isNotEmpty &&
+                  _selectDay != null) {
+                // Call method to add data to Firebase
+                _addToFirebase();
+                // Navigate away only when data is successfully added
+                Navigator.pop(context);
+              } else {
+                // Handle case where any of the required fields are empty
+                print('Title, details, or date is empty');
+                // Show a Snackbar to the user
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please fill in all fields.')),
+                );
+              }
+            });
             },
             style: const ButtonStyle(
               fixedSize: MaterialStatePropertyAll(Size(250, 60)),
@@ -254,6 +274,40 @@ class _AddWorkPageState extends State<AddWorkPage> {
       ),
     );
   }
+
+  void _addToFirebase() {
+    String title = _titleTextFieldController.text;
+    String details = _addDetailsTextFieldController.text;
+
+    if (title.isNotEmpty && details.isNotEmpty && _selectDay != null) {
+      FirebaseFirestore.instance.collection('works').add({
+        'title': title,
+        'details': details,
+        'date': _selectDay!.toIso8601String(), // Convert DateTime to ISO 8601 string
+        'timestamp': DateTime.now(),
+        'userId': widget.uid,
+      }).then((_) {
+        // Data added successfully
+        print('Data added to Firebase');
+      }).catchError((error) {
+        // Error occurred while adding data
+        print('Error adding data to Firebase: $error');
+        // handle the error here, like showing an error message.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: Please Refresh and Try Again.')),
+        );
+      });
+    } else {
+      // Handle case where any of the required fields are empty
+      print('Title, details, or date is empty');
+      // show a message to the user indicating that they need to fill in all required fields.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill in all fields.')),
+      );
+    }
+  }
+
+  
 
   AppBar _myAppBar(BuildContext context) {
     return AppBar(
