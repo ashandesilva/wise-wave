@@ -85,11 +85,42 @@ class CheckInTile extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          color: const Color.fromARGB(255, 200, 114, 207),
-          child: ListTile(
-            title: Text(document['title']),
-            subtitle: Text(document['feelings'].join(', ')),
-            onTap: onPressed,
+          color: const Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  document['title'],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+                    ),
+                //subtitle: Text(document['feelings'].join(', ')),
+                onTap: onPressed,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Wrap(
+                    spacing: 4.0,
+                    alignment: WrapAlignment.start,
+                    children: document['feelings'].map<Widget>((feeling) {
+                      return Chip(
+                        label: Text(feeling.toString().split(".")[1]),
+                        backgroundColor: const Color.fromARGB(255, 198, 238, 245),
+                        side: BorderSide.none,
+                        labelStyle: const TextStyle(fontSize: 15),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                      );
+                    }).toList(),),
+                ),
+              ),
+            ],
           ),
         ),
       ),
