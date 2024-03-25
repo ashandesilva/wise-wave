@@ -47,6 +47,9 @@ class CheckInScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
                     children: snapshot.data!.docs.map((document) {
                       return CheckInTile(
                         document: document,
@@ -62,6 +65,11 @@ class CheckInScreen extends StatelessWidget {
                       );
                     }).toList(),
                   ),
+                ),
+              );
+            }
+          },
+        ),
                 ),
               );
             }
