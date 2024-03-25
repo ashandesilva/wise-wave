@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
+import 'package:http/http.dart' as http;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -21,6 +24,10 @@ class _ChatPageState extends State<ChatPage> {
   final List<Message> messages = [];
   final ScrollController _scrollController = ScrollController();
 
+  http.Client _getClient() {
+    return http.Client();
+  }
+
   void sendMessage(String text) {
     final message = Message(text: text, isSentByUser: true);
     setState(() {
@@ -36,6 +43,37 @@ class _ChatPageState extends State<ChatPage> {
         );
       },
     );
+    var client = _getClient();
+    // ignore: avoid_single_cascade_in_expression_statements
+    client.post(
+      Uri.parse('http://192.168.8.129:5000/bot'),
+      body: {'query': text},
+    )..then((response) {
+        if (response.statusCode == 200) {
+          Map<String, dynamic> messages = jsonDecode(response.body);
+          receiveMessage(messages['response']);
+        } else {
+          print('Failed to send message');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Bad response from Bot..."),
+              behavior: SnackBarBehavior.fixed,
+              duration: Duration(milliseconds: 700),
+            ),
+          );
+        }
+      }).catchError((error) {
+        print(error);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to send message..."),
+            behavior: SnackBarBehavior.fixed,
+            duration: Duration(milliseconds: 700),
+          ),
+        );
+      }).whenComplete(() {
+        client.close();
+      });
   }
 
   void receiveMessage(String text) {
