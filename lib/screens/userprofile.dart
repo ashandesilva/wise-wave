@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../components/theme/nav_bg_gradient.dart';
+import 'package:wisewave/components/theme/main_bg_gradient.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -10,7 +9,6 @@ class UserProfile extends StatefulWidget {
   @override
   // ignore: library_private_types_in_public_api
   _UserProfileState createState() => _UserProfileState();
-  
 }
 
 class _UserProfileState extends State<UserProfile> {
@@ -40,30 +38,48 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text('User Profile',
-            style: TextStyle(
-            fontWeight: FontWeight.bold, 
+        title: const Text(
+          'Account Details',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
             fontSize: 24.0,
           ),
-          ),
-          flexibleSpace: Container(
-          decoration: setNavBgGradient(),
-          
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 242, 195, 178), Color(0xFFE5A8B6)],
+              stops: [0, 1],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        actions: [
+          GestureDetector(
+            onTap: () async {
+              Navigator.pop(context);
+            },
+            child: const Image(
+              width: 45,
+              image: AssetImage("assets/images/close-button.png"),
+            ),
+          ),
+          const SizedBox(width: 20),
+        ],
+        bottom: const PreferredSize(
+          preferredSize: Size(0, 10),
+          child: SizedBox(height: 0),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Container(
+        decoration: setMainBgGradient(),
+        padding: const EdgeInsets.all(50.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Username',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -72,19 +88,19 @@ class _UserProfileState extends State<UserProfile> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: const Color(0xFFE3F4F7),
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Text(
                 _displayName,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Email Address',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -93,63 +109,63 @@ class _UserProfileState extends State<UserProfile> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: const Color(0xFFE3F4F7),
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Text(
                 _email,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 50.0),
             ElevatedButton(
               onPressed: () {
                 // Handle activity history button press
               },
-              child: Text('Activity History'),
+              child: const Text('Activity History'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Handle feedback/support button press
               },
-              child: Text('Feedback/Support'),
+              child: const Text('Feedback/Support'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Handle get analysis button press
               },
-              child: Text('Get Analysis'),
+              child: const Text('Get Analysis'),
             ),
-            SizedBox(height: 16.0),
-            Divider(), // Add a divider below the Get Analysis button
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
+            const Divider(), // Add a divider below the Get Analysis button
+            const SizedBox(height: 16.0),
             // Add a donut chart with dummy data
-            Container(
-              height: 200,
-              width:200,
-              child: Stack(
-                children: [
-                  //CustomPaint(
-                  //  painter: DonutChartPainter(),
-                  //  child: Container(
-                  //    height: 200,
-                  //    width:200,
-                  //  ),
-                  //),
-                ],
-              ),
-            ),
+            // Container(
+            //   height: 200,
+            //   width: 200,
+            //   child: Stack(
+            //     children: [
+            //       CustomPaint(
+            //         painter: DonutChartPainter(),
+            //         child: Container(
+            //           height: 200,
+            //           width: 200,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
-} 
+}
 
 class DonutChartPainter extends CustomPainter {
   @override
@@ -211,5 +227,3 @@ class DonutChartPainter extends CustomPainter {
     return true;
   }
 }
-
-

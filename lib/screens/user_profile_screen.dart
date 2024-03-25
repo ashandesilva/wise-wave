@@ -176,7 +176,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => UserProfile()),
+            MaterialPageRoute(builder: (context) => const UserProfile()),
           );
         },
         contentPadding: const EdgeInsets.symmetric(vertical: 15),

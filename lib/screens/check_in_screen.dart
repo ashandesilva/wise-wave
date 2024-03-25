@@ -19,7 +19,7 @@ class CheckInScreen extends StatelessWidget {
       // new AddCheckInPage(uid) with firestore data
       body: Container(
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(top: 107.0),
+        padding: const EdgeInsets.only(top: 107.0, bottom: 80.0),
         decoration: setMainBgGradient(),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance

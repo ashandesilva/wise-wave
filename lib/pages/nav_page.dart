@@ -322,13 +322,13 @@ class _NavPageState extends State<NavPage> {
         smallSize: 19,
         backgroundColor: Color(0xFF39B29C),
         child: Iconify(
-          Bxs.analyse,
+          Bxs.layer,
           size: 30,
           color: Color(0xFF39B29C),
         ),
       ),
       icon: Iconify(
-        Bx.analyse,
+        Bx.layer,
         size: 30,
         color: Color(0xFF472732),
       ),
