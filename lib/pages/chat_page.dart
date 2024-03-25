@@ -46,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
     var client = _getClient();
     // ignore: avoid_single_cascade_in_expression_statements
     client.post(
-      Uri.parse('https://kai-chatbot-9dde5a75cb6d.herokuapp.com'),
+      Uri.parse('https://kai-chatbot-9dde5a75cb6d.herokuapp.com/bot'),
       body: {'query': text},
     )..then((response) {
         if (response.statusCode == 200) {
