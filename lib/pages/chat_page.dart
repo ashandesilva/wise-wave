@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:wisewave/components/theme/main_bg_gradient.dart';
+import 'package:http/http.dart' as http;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -21,20 +24,56 @@ class _ChatPageState extends State<ChatPage> {
   final List<Message> messages = [];
   final ScrollController _scrollController = ScrollController();
 
+  http.Client _getClient() {
+    return http.Client();
+  }
+
   void sendMessage(String text) {
     final message = Message(text: text, isSentByUser: true);
     setState(() {
       messages.add(message);
       _textEditingController.clear();
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut,
-      );
-    });
-    // TODO: Make API call to send message
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      },
+    );
+    var client = _getClient();
+    // ignore: avoid_single_cascade_in_expression_statements
+    client.post(
+      Uri.parse('http://192.168.8.129:5000/bot'),
+      body: {'query': text},
+    )..then((response) {
+        if (response.statusCode == 200) {
+          Map<String, dynamic> messages = jsonDecode(response.body);
+          receiveMessage(messages['response']);
+        } else {
+          print('Failed to send message');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Bad response from Bot..."),
+              behavior: SnackBarBehavior.fixed,
+              duration: Duration(milliseconds: 700),
+            ),
+          );
+        }
+      }).catchError((error) {
+        print(error);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to send message..."),
+            behavior: SnackBarBehavior.fixed,
+            duration: Duration(milliseconds: 700),
+          ),
+        );
+      }).whenComplete(() {
+        client.close();
+      });
   }
 
   void receiveMessage(String text) {
@@ -49,7 +88,6 @@ class _ChatPageState extends State<ChatPage> {
         curve: Curves.easeOut,
       );
     });
-    // TODO: Make API call to receive message
   }
 
   @override
@@ -58,7 +96,11 @@ class _ChatPageState extends State<ChatPage> {
       appBar: _myChatAppBar(context),
       body: Container(
         decoration: setMainBgGradient(),
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(
+          bottom: 20,
+          right: 20,
+          left: 20,
+        ),
         child: Column(
           children: [
             Expanded(
@@ -73,16 +115,20 @@ class _ChatPageState extends State<ChatPage> {
                         : Alignment.centerLeft,
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         color: message.isSentByUser
-                            ? Colors.green[300]!.withOpacity(0.4)
-                            : Colors.blue[300]!.withOpacity(0.4),
+                            ? const Color(0xFF426C5E)
+                            : const Color(0xFF6C4059),
                       ),
                       child: Text(
                         message.text,
-                        style: const TextStyle(fontSize: 16.0),
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   );
@@ -92,26 +138,24 @@ class _ChatPageState extends State<ChatPage> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30.0),
-                color: const Color.fromARGB(255, 99, 114, 109),
+                color: const Color(0xFF63726D),
               ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(width: 20.0),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 0.0),
-                      child: TextField(
-                        controller: _textEditingController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter your message',
-                          hintStyle: TextStyle(color: Color(0x85D2D2D2)),
-                        ),
-                        cursorColor: const Color(0xffffffff),
-                        style: const TextStyle(color: Colors.white),
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
+                    child: TextField(
+                      controller: _textEditingController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter your message',
+                        hintStyle: TextStyle(color: Color(0x85D2D2D2)),
                       ),
+                      cursorColor: const Color(0xffffffff),
+                      style: const TextStyle(color: Colors.white),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                     ),
                   ),
                   IconButton(

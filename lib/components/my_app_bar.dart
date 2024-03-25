@@ -21,7 +21,7 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
             text: TextSpan(
               text: "Hi ",
               style: const TextStyle(
-                color: Color(0xFF373737),
+                color: Color(0xFF000000),
                 fontSize: 30,
               ),
               children: <TextSpan>[
@@ -84,7 +84,7 @@ AppBar myAppBar(String name, String userProfilePic, int currentPageIndex,
 
 TextStyle _altTitleStyle() {
   return const TextStyle(
-    color: Color(0xFF373737),
+    color: Color(0xFF000000),
     fontWeight: FontWeight.bold,
     fontSize: 30,
   );

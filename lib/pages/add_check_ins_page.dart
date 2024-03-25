@@ -186,7 +186,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF474747),
+                      color: Color(0xFF000000),
                     ),
                   ),
                 ),
@@ -239,7 +239,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF474747),
+                      color: Color(0xFF000000),
                     ),
                   ),
                 ),
@@ -401,7 +401,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF474747),
+                    color: Color(0xFF000000),
                   ),
                 ),
               ),
@@ -418,7 +418,7 @@ class _AddCheckInPageState extends State<AddCheckInPage> {
                 _emotionsList[_currentSliderPosition],
                 style: const TextStyle(
                   fontSize: 20,
-                  color: Color(0xFF474747),
+                  color: Color(0xFF000000),
                 ),
               ),
               const SizedBox(
@@ -558,7 +558,7 @@ class TitleTextfieldScreen extends StatelessWidget {
           "Check-In Title",
           style: TextStyle(
             fontWeight: FontWeight.w800,
-            color: Color(0xFF474747),
+            color: Color(0xFF000000),
           ),
         ),
         centerTitle: true,
@@ -597,7 +597,7 @@ class TitleTextfieldScreen extends StatelessWidget {
                 hintStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(122, 71, 71, 71),
+                  color: Color(0x79474747),
                 ),
               ),
             ),

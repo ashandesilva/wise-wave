@@ -94,13 +94,13 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   "View Workload",
                   style: TextStyle(
-                      color: Color(0xff373737),
+                      color: Color(0xff000000),
                       fontSize: 24,
                       fontWeight: FontWeight.w800),
                 ),
                 Text(
                   "Check for upcoming tasks.",
-                  style: TextStyle(color: Color(0xff474747)),
+                  style: TextStyle(color: Color(0xff000000)),
                 )
               ],
             ),
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                     "Daily Check-Ins",
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
-                      color: Color.fromARGB(255, 55, 55, 55),
+                      color: Color(0xFF000000),
                       fontSize: 24,
                     ),
                   ),
@@ -259,7 +259,7 @@ class HomeScreen extends StatelessWidget {
                       "Daily Challenge",
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
-                        color: Color.fromARGB(255, 55, 55, 55),
+                        color: Color(0xFF000000),
                         fontSize: 24,
                       ),
                     ),
@@ -269,7 +269,7 @@ class HomeScreen extends StatelessWidget {
                         text: const TextSpan(
                           text: "Ends in ",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 55, 55, 55),
+                            color: Color(0xFF000000),
                           ),
                           children: <TextSpan>[
                             TextSpan(

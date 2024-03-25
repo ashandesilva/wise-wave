@@ -50,6 +50,9 @@ dependencies:
   cloud_firestore: ^4.15.8
   table_calendar: ^3.1.0
   provider:
+  intl: ^0.19.0
+  http: ^1.2.0
+  bubble: ^1.1.9+1
 
 dev_dependencies:
   flutter_test:

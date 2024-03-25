@@ -17,33 +17,36 @@ class CheckInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // new AddCheckInPage(uid) with firestore data
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('check_ins')
-            .where('userId', isEqualTo: uid)
-            .orderBy('timestamp', descending: true)
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text('No check-Ins found.'),
-            );
-          } else {
-            return Container(
-              decoration: setMainBgGradient(),
-              child: LiquidPullToRefresh(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.only(top: 107.0),
+        decoration: setMainBgGradient(),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('check_ins')
+              .where('userId', isEqualTo: uid)
+              .orderBy('timestamp', descending: true)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.docs.isEmpty) {
+              return const Center(
+                child: Text('No check-Ins found.'),
+              );
+            } else {
+              return LiquidPullToRefresh(
                 onRefresh: refreshHandler,
                 color: const Color(0xFFE5A8B6),
                 height: 150,
                 backgroundColor: const Color(0xFFB8D7E5),
                 animSpeedFactor: 2,
                 showChildOpacityTransition: false,
-                child: ListView(children: [
-                  Column(
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
                     children: snapshot.data!.docs.map((document) {
                       return CheckInTile(
                         document: document,
@@ -59,11 +62,11 @@ class CheckInScreen extends StatelessWidget {
                       );
                     }).toList(),
                   ),
-                ]),
-              ),
-            );
-          }
-        },
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
