@@ -92,10 +92,17 @@ class _NavPageState extends State<NavPage> {
       alignment: Alignment.center,
       children: [
         if (_isFabButtonToggle)
-          Container(
-            color: const Color.fromARGB(140, 55, 55, 55),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isFabButtonToggle = !_isFabButtonToggle;
+              });
+            },
+            child: Container(
+              color: const Color.fromARGB(140, 55, 55, 55),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
           ),
         if (_isFabButtonToggle)
           Stack(
@@ -303,19 +310,25 @@ class _NavPageState extends State<NavPage> {
           indicatorColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           selectedIndex: currentPageIndex,
-          destinations: <Widget>[
-            _home_navigator(),
-            _check_in_navigator(),
-            _message_navigator(),
-            _analytics_navigator(),
+          destinations: const <Widget>[
+            HomeNavigator(),
+            CheckInNavigator(),
+            MessageNavigator(),
+            AnalyticsNavigator(),
           ],
         ),
       ),
     );
   }
+}
 
-  // ignore: non_constant_identifier_names
-  NavigationDestination _analytics_navigator() {
+class AnalyticsNavigator extends StatelessWidget {
+  const AnalyticsNavigator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return const NavigationDestination(
       selectedIcon: Badge(
         alignment: Alignment(0, -7.8),
@@ -335,9 +348,15 @@ class _NavPageState extends State<NavPage> {
       label: 'Analytics',
     );
   }
+}
 
-  // ignore: non_constant_identifier_names
-  Padding _message_navigator() {
+class MessageNavigator extends StatelessWidget {
+  const MessageNavigator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.only(left: 70),
       child: NavigationDestination(
@@ -360,9 +379,15 @@ class _NavPageState extends State<NavPage> {
       ),
     );
   }
+}
 
-  // ignore: non_constant_identifier_names
-  Padding _check_in_navigator() {
+class CheckInNavigator extends StatelessWidget {
+  const CheckInNavigator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.only(right: 70),
       child: NavigationDestination(
@@ -385,9 +410,15 @@ class _NavPageState extends State<NavPage> {
       ),
     );
   }
+}
 
-  // ignore: non_constant_identifier_names
-  NavigationDestination _home_navigator() {
+class HomeNavigator extends StatelessWidget {
+  const HomeNavigator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return const NavigationDestination(
       selectedIcon: Badge(
         alignment: Alignment(0, -7.8),

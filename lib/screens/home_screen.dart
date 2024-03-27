@@ -25,23 +25,24 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             body: Container(
               height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.only(top: 107.0),
               decoration: setMainBgGradient(),
-              child: SingleChildScrollView(
-                //to make the scroll view always scrollable
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        _getCheckInsCard(context, uid),
-                        _getQuoteCard(username),
-                        _getDailyChallangeCard(context),
-                        const SizedBox(height: 25),
-                        _getWorkLoadBtn(context),
-                        const SizedBox(height: 150),
-                      ],
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  //to make the scroll view always scrollable
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          _getCheckInsCard(context, uid),
+                          _getQuoteCard(username),
+                          _getDailyChallangeCard(context),
+                          const SizedBox(height: 25),
+                          WorkLoadButton(uid: uid, context: context),
+                          const SizedBox(height: 150),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -57,65 +58,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  GestureDetector _getWorkLoadBtn(BuildContext context) {
-    return GestureDetector(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          shadowColor: const Color.fromARGB(67, 0, 0, 0),
-          elevation: 10,
-          surfaceTintColor: const Color(0xFFE3F4F7),
-          backgroundColor: const Color(0xFFE3F4F7),
-          padding: const EdgeInsets.symmetric(
-            vertical: 25,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        onPressed: () async {
-          {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return WorkLoadScreen(uid: uid);
-                },
-              ),
-            );
-          }
-        },
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "View Workload",
-                  style: TextStyle(
-                      color: Color(0xff000000),
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800),
-                ),
-                Text(
-                  "Check for upcoming tasks.",
-                  style: TextStyle(color: Color(0xff000000)),
-                )
-              ],
-            ),
-            SizedBox(width: 40),
-            Image(
-              image: AssetImage("assets/images/fa-suite-case.png"),
-              width: 70,
-            ),
-            SizedBox(width: 5),
-          ],
-        ),
-      ),
-    );
-  }
-
   GestureDetector _getCheckInsCard(BuildContext context, uid) {
     return GestureDetector(
       onTap: () async {
@@ -124,7 +66,7 @@ class HomeScreen extends StatelessWidget {
         }));
       },
       child: Card(
-        shadowColor: const Color.fromARGB(67, 0, 0, 0),
+        shadowColor: const Color.fromARGB(111, 0, 0, 0),
         elevation: 10,
         color: const Color(0xFFE3F4F7),
         surfaceTintColor: const Color(0xFFE3F4F7),
@@ -191,7 +133,7 @@ class HomeScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Card(
-        shadowColor: const Color.fromARGB(67, 0, 0, 0),
+        shadowColor: const Color.fromARGB(111, 0, 0, 0),
         elevation: 10,
         color: const Color(0xFFE3F4F7),
         surfaceTintColor: const Color(0xFFE3F4F7),
@@ -238,7 +180,7 @@ class HomeScreen extends StatelessWidget {
           }));
         },
         child: Card(
-          shadowColor: const Color.fromARGB(67, 0, 0, 0),
+          shadowColor: const Color.fromARGB(111, 0, 0, 0),
           elevation: 10,
           color: const Color(0xFFE3F4F7),
           surfaceTintColor: const Color(0xFFE3F4F7),
@@ -319,10 +261,79 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  RoundedRectangleBorder _roundCardCorners() {
-    return const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(
-        Radius.circular(25),
+  RoundedRectangleBorder _roundCardCorners() => const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25),
+        ),
+      );
+}
+
+class WorkLoadButton extends StatelessWidget {
+  const WorkLoadButton({
+    super.key,
+    required this.uid,
+    required this.context,
+  });
+
+  final String uid;
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          splashFactory: NoSplash.splashFactory,
+          shadowColor: const Color.fromARGB(111, 0, 0, 0),
+          elevation: 10,
+          surfaceTintColor: const Color(0xFFE3F4F7),
+          backgroundColor: const Color(0xFFE3F4F7),
+          padding: const EdgeInsets.symmetric(
+            vertical: 25,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        onPressed: () async {
+          {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return WorkLoadScreen(uid: uid);
+                },
+              ),
+            );
+          }
+        },
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "View Workload",
+                  style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800),
+                ),
+                Text(
+                  "Check for upcoming tasks.",
+                  style: TextStyle(color: Color(0xff000000)),
+                )
+              ],
+            ),
+            SizedBox(width: 40),
+            Image(
+              image: AssetImage("assets/images/fa-suite-case.png"),
+              width: 70,
+            ),
+            SizedBox(width: 5),
+          ],
+        ),
       ),
     );
   }

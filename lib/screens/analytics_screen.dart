@@ -6,136 +6,128 @@ class AnalyticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.only(top: 110.0),
         decoration: setMainBgGradient(),
-        child: SingleChildScrollView(
-          child: Center(
+        child: SafeArea(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
+                  const SizedBox(height: 20),
                   Card(
-                    shadowColor: const Color.fromARGB(67, 0, 0, 0),
-                        elevation: 10,
-                        color: const Color(0xFFE3F4F7),
-                        surfaceTintColor: const Color(0xFFE3F4F7),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                    child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20), // Add the padding to the top
-                        child: Text(
-                          'KAI Says', // Add the title here
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    shadowColor: const Color.fromARGB(111, 0, 0, 0),
+                    elevation: 10,
+                    color: const Color(0xFFE3F4F7),
+                    surfaceTintColor: const Color(0xFFE3F4F7),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 30,
                       ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'KAI Says!', // Add the title here
+                            style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
-                          child: Row(
+                          const SizedBox(height: 10),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 8),
-                                child: Transform.rotate(
-                                  angle: 3.14159, // Rotate by 180 degrees (pi radians)
-                                  child: Image(
-                                    image: AssetImage("assets/images/fa_quote-left.png"),
-                                    
-                                  ),
+                              Transform.rotate(
+                                angle:
+                                    3.14159, // Rotate by 180 degrees (pi radians)
+                                child: const Image(
+                                  image: AssetImage(
+                                      "assets/images/fa_quote-left.png"),
                                 ),
                               ),
-                              Column(
+                              const SizedBox(width: 15),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                child: const Text(
+                                  "This feeling won't last forever. There will be brighter days ahead. Remember, even the darkest night eventually gives way to the sun.",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              const Image(
+                                image: AssetImage(
+                                    "assets/images/fa_quote-left.png"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Card(
+                    shadowColor: const Color.fromARGB(111, 0, 0, 0),
+                    elevation: 10,
+                    color: const Color(0xFFE3F4F7),
+                    surfaceTintColor: const Color(0xFFE3F4F7),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: const ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 30,
+                              ),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: 230,
-                                      child: Text(
-                                        "This feeling won't last forever. There will be brighter days ahead. Remember, even the darkest night eventually gives way to the sun.",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
+                                  Text(
+                                    "Spent Time",
+                                    style: TextStyle(
+                                      color: Color(0xff000000),
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                  Text(
+                                    "03 Hrs 14 Mins",
+                                    style: TextStyle(
+                                      color: Color(0xFFFF3F18),
+                                      fontSize: 20,
                                     ),
                                   )
                                 ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Image(
-                                  image: AssetImage("assets/images/fa_quote-left.png"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),    
-                        
-                      ],
-                  
-                    ),
-                  ),
-
-                  SizedBox(height: 40),
-
-                  Card(
-                    shadowColor: const Color.fromARGB(67, 0, 0, 0),
-                        elevation: 10,
-                        color: const Color(0xFFE3F4F7),
-                        surfaceTintColor: const Color(0xFFE3F4F7),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                    child: Column(
-                    children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Spent Time",
-                              style: TextStyle(
-                                  color: Color(0xff373737),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w800),
                             ),
-                            Text(
-                              "03 Hrs 14 Mins",
-                              style: TextStyle(color: Color(0xff474747), fontSize: 20, fontWeight: FontWeight.w400),
-                            )
+                            Positioned(
+                              left: 200,
+                              bottom: 0,
+                              child: Icon(
+                                Icons.access_time,
+                                size: 190,
+                                color: Color(0x3BFF9B87),
+                              ),
+                            ),
                           ],
                         ),
-                        SizedBox(width: 40),
-                        Icon(
-                          Icons.access_time,
-                          size: 100,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                        
-                      ],
-                  
+                      ),
                     ),
                   ),
-
-                  
                 ],
               ),
             ),
@@ -153,4 +145,3 @@ class HappinessData {
 
   HappinessData({required this.day, required this.happiness});
 }
-
